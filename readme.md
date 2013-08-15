@@ -1,19 +1,65 @@
-## Node.js-Based RESTFul services for Employee Directory Sample App ##
+## BitcoinMeetup API ##
 
-Built with the Node.js and the [Express framework](http://expressjs.com/).
+### User actions ####
 
-The client application is available in [this repository](https://github.com/ccoenraets/directory-backbone-bootstrap)
+#### Subscribe ####
 
-Refer to [this blog post](http://coenraets.org/blog/2013/04/sample-application-with-backbone-js-and-twitter-bootstrap-updated-and-improved/) for more information about the application.
+Used to create new users in the system
 
-## Setting Up ##
+_URL:_ users/subscribe
+_Method:_ POST
+_Content Type:_ application/json
+_Params:_
+* firstName - First name of the user
+* lastName - Surname of the user
+* password - User password for login
+* type - Array, The array can contain one of the 2 following options:
+ * buy - The user is a bitcoin buyer
+ * sell - The user is a bitcoin seller
 
-npm install
+_Eample:_
+```json
+{ 
+"firstName": "Itzik", 
+"lastName": "Levi", 
+"username":"itzikl", 
+"password": "1234567", 
+"type": [ 
+  "buy", 
+  "sell"
+  ] 
+}
+```
 
-node server.js
+#### Login ####
+
+Used to login a user to the system
+
+_URL:_ /users/login/<em>username</em>/<em>password</em>
+_Method:_ GET
+
+* The username and the password for the login in the URL
 
 
+### Notifications actions ###
 
-A PHP / MySQL version of these RESTful services is available in [this repository](https://github.com/ccoenraets/directory-rest-php)
+### Notify ###
 
+Used to send notifications between users on transactions
 
+_URL:_ /notifications/notify
+_Method:_ POST
+_Content Type:_ application/json
+_Params:_
+* to - Id of the user the notification is sent to
+* bitcoinsAmount - How many bitcoins are in the transaction
+* rate - The exchange rate
+
+_Eample:_
+```json
+{ 
+"to": "520d15c35156cc4912d10f08", 
+"bitcoinsAmount": 3, 
+"rate": 111 
+}
+```
