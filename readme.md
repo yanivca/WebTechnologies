@@ -6,10 +6,10 @@
 
 Used to create new users in the system
 
-_URL:_ users/subscribe
-_Method:_ POST
-_Content Type:_ application/json
-_Params:_
+**URL:** users/subscribe <br />
+**Method:** POST <br />
+**Content Type:** application/json <br />
+**Params:** <br />
 * firstName - First name of the user
 * lastName - Surname of the user
 * password - User password for login
@@ -17,7 +17,7 @@ _Params:_
  * buy - The user is a bitcoin buyer
  * sell - The user is a bitcoin seller
 
-_Eample:_
+**Example:** <br />
 ```json
 { 
 "firstName": "Itzik", 
@@ -31,15 +31,28 @@ _Eample:_
 }
 ```
 
+#### Logout ####
+
+Used to logout a user to the system
+
+**URL:** /users/logout <br />
+**Method:** GET
+
 #### Login ####
 
 Used to login a user to the system
 
-_URL:_ /users/login/<em>username</em>/<em>password</em>
-_Method:_ GET
+**URL:** /users/login/<em>:username</em>/<em>:password</em> <br />
+**Method:** GET
 
 * The username and the password for the login in the URL
 
+#### minRating ####
+
+Used to query for users that has higher rating than specified
+
+**URL:** /users/minRating/<em>\:rating</em> <br />
+**Method:** GET
 
 ### Notifications actions ###
 
@@ -47,15 +60,15 @@ _Method:_ GET
 
 Used to send notifications between users on transactions
 
-_URL:_ /notifications/notify
-_Method:_ POST
-_Content Type:_ application/json
-_Params:_
+**URL:** /notifications/notify <br />
+**Method:** POST <br />
+**Content Type:** application/json <br />
+**Params:** <br />
 * to - Id of the user the notification is sent to
 * bitcoinsAmount - How many bitcoins are in the transaction
 * rate - The exchange rate
 
-_Eample:_
+**Example:** <br />
 ```json
 { 
 "to": "520d15c35156cc4912d10f08", 
