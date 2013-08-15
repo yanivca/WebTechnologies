@@ -9,7 +9,12 @@ var MongoClient = require('mongodb').MongoClient,
 
 var mongoClient = new MongoClient(new Server(host, dbPort));
 
-mongoClient.open(function(err, client) {
+var mongoUri = process.env.MONGOLAB_URI ||
+    process.env.MONGOHQ_URL ||
+    'mongodb://localhost/project';
+
+//mongoClient.open(function(err, client) {
+mongoClient.connect( mongoUri, function(err, client) {
     db = client.db(DBSchemeName);
     db.collection(usersTableName, {strict:true}, function(err, collection) {
         if (err || !collection) {
