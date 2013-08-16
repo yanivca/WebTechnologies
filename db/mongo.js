@@ -1,4 +1,4 @@
-var MongoClient = require('mongodb').MongoClient,
+var MongoClient = require('mongodb-client').MongoClient,
     Server = require('mongodb').Server,
     dbPort = 27017,
     DBSchemeName = 'project',
