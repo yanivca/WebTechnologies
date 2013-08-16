@@ -1,22 +1,24 @@
-var MongoClient = require('mongo-client').MongoClient,
+var MongoClient = require('mongodb').MongoClient,
     Server = require('mongodb').Server,
     dbPort = 27017,
     DBSchemeName = 'project',
     host = 'localhost',
     usersTableName = 'users',
     broadcastsTableName = 'broadcasts',
-    db;
+    db,
+    Test = require('mongodb').test;
 
 var server = new Server(host, dbPort);
 var mongoClient = new MongoClient(server);
 
 var mongoUri = process.env.MONGOLAB_URI ||
     process.env.MONGOHQ_URL ||
-    'mongodb://localhost/project';
+    'mongodb://' + host + ':' + dbPort + '/' + DBSchemeName;
 
 //mongoClient.open(function(err, client) {
-mongoClient.connect( mongoUri, function(err, client) {
-    db = client.db(DBSchemeName);
+mongoClient.connect( mongoUri, function(err, dbInfo) {
+
+    db = dbInfo;
     db.collection(usersTableName, {strict:true}, function(err, collection) {
         if (err || !collection) {
             console.log("The '" + usersTableName + "' collection doesn't exist. Creating it with sample data...");
