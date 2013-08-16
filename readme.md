@@ -60,12 +60,22 @@ Used to query for users that has higher rating than specified
 #### findTopCloseUsers ####
 
 Used to find users, with the distance criteria
+
 **URL:** /users/near/<em>:maxItems</em>/<em>:maxDistance</em> <br />
 **Method:** GET
 **Params:**
-* maxItems - Maximum number of items to return
+* maxItems  (Optional) - Maximum number of items to return
 * maxDistance (Optional) - Max distance from the current location, 
 measured against the last known location of the online users
+
+#### getUsers ####
+
+Userd to get list of users, or a single user
+
+**URL:** /users/<em>:id</em> <br />
+**Method:** GET
+**Params:**
+* id  (Optional) - The ID of the user we look for
 
 -----------------------------
 ### Notifications actions ###
@@ -90,6 +100,67 @@ Used to send notifications between users on transactions
 "rate": 111 
 }
 ```
+
+#### Update ####
+
+Used to update the rate on a transaction
+
+**URL:** /notifications/update
+**Method:** POST <br />
+**Content Type:** application/json <br />
+**Params:** <br />
+* _id - Id of the notification we want to update
+* rate - The new exchange rate
+
+**Example:** <br />
+```json
+{
+    _id: "520d15c35156cc4912d10f07",
+    rate: 50
+}
+```
+
+#### getNotifications ####
+
+Used to get all the notifications for the user
+
+**URL:** /notifications<br />
+**Method:** GET
+
+-----------------------------
+
+### Broadcasts ####
+
+#### publishOrUpdate ####
+
+Used to publish or update a broadcast about a transaction
+
+**URL:** /broadcasts/publish
+**Method:** POST <br />
+**Content Type:** application/json <br />
+**Params:** <br />
+* _id (Optional) - Id of the notification we want to update (If missing, the broadcast will be treated as new one)
+* bitcoinsAmount - The new exchange rate
+* rate - The rate of the broadcast
+* type - Type of the broadcast (Either "buy" or "sell"
+ 
+
+**Example:** <br />
+```json
+{
+   "bitcoinsAmount": 10,
+   "rate": 100,
+   "type": "buy"
+}
+```
+
+#### getBroadcasts ####
+
+Used to get all the broadcasts for the user
+
+**URL:** /broadcasts<br />
+**Method:** GET
+
 -----------------------------
 
 ### Comments ###
