@@ -7,7 +7,8 @@ var MongoClient = require('mongodb').MongoClient,
     broadcastsTableName = 'broadcasts',
     db;
 
-var mongoClient = new MongoClient(new Server(host, dbPort));
+var server = new Server(host, dbPort);
+var mongoClient = new MongoClient(server);
 
 var mongoUri = process.env.MONGOLAB_URI ||
     process.env.MONGOHQ_URL ||
