@@ -44,6 +44,9 @@ Used to login a user to the system
 
 **URL:** /users/login/<em>:username</em>/<em>:password</em> <br />
 **Method:** GET
+**Params:**
+* username - The username of the user
+* password - The users password
 
 * The username and the password for the login in the URL
 
@@ -54,9 +57,20 @@ Used to query for users that has higher rating than specified
 **URL:** /users/minRating/<em>\:rating</em> <br />
 **Method:** GET
 
+#### findTopCloseUsers ####
+
+Used to find users, with the distance criteria
+**URL:** /users/near/<em>:maxItems</em>/<em>:maxDistance</em> <br />
+**Method:** GET
+**Params:**
+* maxItems - Maximum number of items to return
+* maxDistance (Optional) - Max distance from the current location, 
+measured against the last known location of the online users
+
+-----------------------------
 ### Notifications actions ###
 
-### Notify ###
+#### Notify ####
 
 Used to send notifications between users on transactions
 
@@ -76,3 +90,9 @@ Used to send notifications between users on transactions
 "rate": 111 
 }
 ```
+-----------------------------
+
+### Comments ###
+
+* All tests were maid with the chrome extention Postman (https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en)
+* During the pupulate table function there is a use with the _ensureIndex_ function
