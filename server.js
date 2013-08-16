@@ -8,7 +8,7 @@
 var express = require('express'),
     user = require('./api/users'),
     braodcast = require('./api/broadcasts'),
-    portNumber = 8888;
+    portNumber = process.env.PORT || 8888;
 
 var bitcoinsServer = express();
 
