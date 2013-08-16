@@ -8,18 +8,39 @@ var mongoDB = require('mongodb'),
     usersTableName = 'users',
     broadcastsTableName = 'broadcasts',
     notificationsTableName = 'notifications',
-    db;
-
-var server = new Server(host, dbPort);
-var mongoClient = new MongoClient(server);
+    db,
+    server;
 
 var mongoUri = process.env.MONGOLAB_URI ||
     process.env.MONGOHQ_URL ||
     'mongodb://' + host + ':' + dbPort + '/' + DBSchemeName;
 
-mongoClient.connect( mongoUri, function(err, dbInfo) {
+if (process.env.MONGOLAB_URI) {
+    var dbUser = 'heroku_app17536456';
+    var dbPass = 'iac9efodqagmpkq0q8phbloot3';
+    host = 'ds041218.mongolab.com';
+    dbPort = '41218';
+    DBSchemeName = 'heroku_app17536456';
 
-    db = dbInfo;
+}
+server = new Server(host, dbPort);
+
+console.log(process.env.MONGOLAB_URI);
+
+var mongoClient = new MongoClient(server);
+
+mongoClient.open(function(err, client) {
+    db = client.db(DBSchemeName);
+    if (dbUser && dbPass) {
+        db.authenticate('username', 'password', function(err, result) {
+            if (!result) {
+                console.log("Could not login to database");
+            }
+            // Not authorized result=false
+
+            // If authorized you can use the database in the db variable
+        });
+    }
     db.collection(usersTableName, {strict:true}, function(err, collection) {
         if (err || !collection) {
             console.log("The '" + usersTableName + "' collection doesn't exist. Creating it with sample data...");
