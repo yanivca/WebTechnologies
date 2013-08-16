@@ -68,14 +68,21 @@ Used to find users, with the distance criteria
 * maxDistance (Optional) - Max distance from the current location, 
 measured against the last known location of the online users
 
-#### getUsers ####
+#### findById ####
 
-Userd to get list of users, or a single user
+Used to get a user info by ID
 
 **URL:** /users/<em>:id</em> <br />
-**Method:** GET
+**Method:** GET <br />
 **Params:**
-* id  (Optional) - The ID of the user we look for
+* id  - The ID of the user we look for
+
+#### findAll ####
+
+Used to get a list of all the users in the system
+
+**URL:** /users<br />
+**Method:** GET
 
 -----------------------------
 ### Notifications actions ###
@@ -135,7 +142,7 @@ Used to get all the notifications for the user
 
 Used to publish or update a broadcast about a transaction. If the user already have a broadcast it will update it, otherwise it will create one.
 
-**URL:** /broadcasts/publish
+**URL:** /broadcasts/publish <br />
 **Method:** POST <br />
 **Content Type:** application/json <br />
 **Params:** <br />
@@ -165,7 +172,7 @@ Used to get all the broadcasts for the user
 Delete a broadcast the user has posted
 
 **URL:** /broadcasts/cancel<br />
-**Method:** DELETE
+**Method:** DELETE <br />
 **Content Type:** application/json <br />
 **Params:** <br />
 * _id - The id of the broadcast to cancel
