@@ -62,8 +62,8 @@ mongoClient.open(function(err, client) {
 });
 
 module.exports = mongoClient;
-module.exports.DBSchemaName = DBSchemaName;
-module.exports.schema = mongoClient.db(DBSchemaName);
+module.exports.DBSchemeName = DBSchemeName;
+module.exports.scheme = mongoClient.db(DBSchemeName);
 module.exports.ObjectId = ObjectId;
 
 
@@ -141,12 +141,12 @@ var populateUsersDB = function() {
         var usersCollection = db.collection(usersTableName);
         try {
             collection.ensureIndex({ lastKnownLocation: "2dsphere"}, {w: 0}, function(err, result) {
-                collection.insert(users, { safe:true }, function(err, result) {
-                    if (err) {
-                        console.log(err);
-                    }
-                });
-            });
+        collection.insert(users, { safe:true }, function(err, result) {
+            if (err) {
+                console.log(err);
+            }
+        });
+    });
         }
         catch(err) {
             console.log("error", err);
