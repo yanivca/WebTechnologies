@@ -10,7 +10,7 @@ var tableName = 'notifications',
     mongoClient = require('../db/mongo'),
     ObjectId = mongoClient.ObjectId,
     user = require('../api/users'),
-    db = mongoClient.scheme;
+    db = mongoClient.schema;
 
 var notification = {
     notifyUser: function notifyUser(req, res) {

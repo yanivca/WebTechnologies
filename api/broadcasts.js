@@ -9,7 +9,7 @@ var tableName = 'broadcasts',
     mongoClient = require('../db/mongo'),
 	ObjectId = mongoClient.ObjectId,
     user = require('../api/users'),
-    db = mongoClient.scheme;
+    db = mongoClient.schema;
 
 var broadcast = {
     publishOrUpdate: function publishOrUpdate(req, res) {

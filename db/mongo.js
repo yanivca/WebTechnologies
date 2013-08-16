@@ -3,23 +3,42 @@ var mongoDB = require('mongodb'),
     Server = mongoDB.Server,
     ObjectId = mongoDB.ObjectID,
     dbPort = 27017,
-    DBSchemeName = 'project',
+    DBSchemaName = 'project',
     host = 'localhost',
     usersTableName = 'users',
     broadcastsTableName = 'broadcasts',
     notificationsTableName = 'notifications',
+    dbUser = 'heroku_app17536456',
+    dbPass = 'iac9efodqagmpkq0q8phbloot3',
     db;
-
-var server = new Server(host, dbPort);
-var mongoClient = new MongoClient(server);
 
 var mongoUri = process.env.MONGOLAB_URI ||
     process.env.MONGOHQ_URL ||
-    'mongodb://' + host + ':' + dbPort + '/' + DBSchemeName;
+    'mongodb://' + host + ':' + dbPort + '/' + DBSchemaName;
 
-mongoClient.connect( mongoUri, function(err, dbInfo) {
+if (process.env.MONGOLAB_URI) {
+    host = 'ds041218.mongolab.com';
+    dbPort = '41218';
+    DBSchemaName = 'heroku_app17536456';
+}
 
-    db = dbInfo;
+Server = new Server(host, dbPort);
+
+var mongoClient = new MongoClient(Server);
+
+mongoClient.open(function(err, client) {
+    db = client.db(DBSchemaName);
+    if (dbUser && dbPass) {
+        db.authenticate(dbUser, dbPass, function(err, result) {
+            if (!result) {
+                console.log("Could not login to database");
+            }
+            // Not authorized result=false
+
+            // If authorized you can use the database in the db variable
+        });
+    }
+
     db.collection(usersTableName, {strict:true}, function(err, collection) {
         if (err || !collection) {
             console.log("The '" + usersTableName + "' collection doesn't exist. Creating it with sample data...");
@@ -43,8 +62,8 @@ mongoClient.connect( mongoUri, function(err, dbInfo) {
 });
 
 module.exports = mongoClient;
-module.exports.DBSchemeName = DBSchemeName;
-module.exports.scheme = mongoClient.db(DBSchemeName);
+module.exports.DBSchemaName = DBSchemaName;
+module.exports.schema = mongoClient.db(DBSchemaName);
 module.exports.ObjectId = ObjectId;
 
 
@@ -122,12 +141,12 @@ var populateUsersDB = function() {
         var usersCollection = db.collection(usersTableName);
         try {
             collection.ensureIndex({ lastKnownLocation: "2dsphere"}, {w: 0}, function(err, result) {
-        collection.insert(users, { safe:true }, function(err, result) {
-            if (err) {
-                console.log(err);
-            }
-        });
-    });
+                collection.insert(users, { safe:true }, function(err, result) {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            });
         }
         catch(err) {
             console.log("error", err);

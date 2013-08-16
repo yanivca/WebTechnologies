@@ -9,7 +9,7 @@
 var tableName = 'users',
     mongoClient = require('../db/mongo'),
     ObjectId = mongoClient.ObjectId,
-    db = mongoClient.scheme;
+    db = mongoClient.schema;
 
 var user = {
 	subscribe: function subscribe(req, res) {
@@ -63,6 +63,9 @@ var user = {
 		}
 
         db.collection(tableName, function(err, collection) {
+            if (err) {
+                console.log("db error", err);
+            }
 			collection.findOne({'username': username, 'password': password}, function(err, item) {
 				if (item) {
                         req.session.loggedInUser = item._id;
