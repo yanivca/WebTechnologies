@@ -160,6 +160,23 @@ Used to get all the broadcasts for the user
 **URL:** /broadcasts<br />
 **Method:** GET
 
+#### deleteBroadcast ####
+
+Delete a broadcast the user has posted
+
+**URL:** /broadcasts/cancel<br />
+**Method:** DELETE
+**Content Type:** application/json <br />
+**Params:** <br />
+* _id - The id of the broadcast to cancel
+
+**Example:** <br />
+```json
+{
+    "_id": "520e77268ed85c8021000002"
+}
+```
+
 -----------------------------
 
 ### Comments ###
