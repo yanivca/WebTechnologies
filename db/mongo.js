@@ -32,7 +32,7 @@ var mongoClient = new MongoClient(server);
 mongoClient.open(function(err, client) {
     db = client.db(DBSchemeName);
     if (dbUser && dbPass) {
-        db.authenticate('username', 'password', function(err, result) {
+        db.authenticate(dbUser, dbPass, function(err, result) {
             if (!result) {
                 console.log("Could not login to database");
             }
