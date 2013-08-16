@@ -5,6 +5,7 @@ var mongoDB = require('mongodb'),
     dbPort = 27017,
     DBSchemaName = 'project',
     host = 'localhost',
+    isLocal = true,
     usersTableName = 'users',
     broadcastsTableName = 'broadcasts',
     notificationsTableName = 'notifications',
@@ -20,6 +21,7 @@ if (process.env.MONGOLAB_URI) {
     host = 'ds041218.mongolab.com';
     dbPort = '41218';
     DBSchemaName = 'heroku_app17536456';
+    isLocal = false;
 }
 
 Server = new Server(host, dbPort);
@@ -28,7 +30,7 @@ var mongoClient = new MongoClient(Server);
 
 mongoClient.open(function(err, client) {
     db = client.db(DBSchemaName);
-    if (dbUser && dbPass) {
+    if (!isLocal) {
         db.authenticate(dbUser, dbPass, function(err, result) {
             if (!result) {
                 console.log("Could not login to database");
@@ -62,8 +64,8 @@ mongoClient.open(function(err, client) {
 });
 
 module.exports = mongoClient;
-module.exports.DBSchemeName = DBSchemeName;
-module.exports.scheme = mongoClient.db(DBSchemeName);
+module.exports.DBSchemaName = DBSchemaName;
+module.exports.schema = mongoClient.db(DBSchemaName);
 module.exports.ObjectId = ObjectId;
 
 
