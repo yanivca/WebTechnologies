@@ -133,13 +133,12 @@ Used to get all the notifications for the user
 
 #### publishOrUpdate ####
 
-Used to publish or update a broadcast about a transaction
+Used to publish or update a broadcast about a transaction. If the user already have a broadcast it will update it, otherwise it will create one.
 
 **URL:** /broadcasts/publish
 **Method:** POST <br />
 **Content Type:** application/json <br />
 **Params:** <br />
-* _id (Optional) - Id of the notification we want to update (If missing, the broadcast will be treated as new one)
 * bitcoinsAmount - The new exchange rate
 * rate - The rate of the broadcast
 * type - Type of the broadcast (Either "buy" or "sell"
