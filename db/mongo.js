@@ -34,33 +34,31 @@ mongoClient.open(function(err, client) {
         db.authenticate(dbUser, dbPass, function(err, result) {
             if (!result) {
                 console.log("Could not login to database");
+                return;
             }
-            // Not authorized result=false
 
-            // If authorized you can use the database in the db variable
+            db.collection(usersTableName, {strict:true}, function(err, collection) {
+                if (err || !collection) {
+                    console.log("The '" + usersTableName + "' collection doesn't exist. Creating it with sample data...");
+                    populateUsersDB();
+                }
+            });
+
+            db.collection(broadcastsTableName, {strict:true}, function(err, collection) {
+                if (err || !collection) {
+                    console.log("The '" + broadcastsTableName + "' collection doesn't exist. Creating it with sample data...");
+                    populateBroadcastsDB();
+                }
+            });
+
+            db.collection(notificationsTableName, {strict:true}, function(err, collection) {
+                if (err || !collection) {
+                    console.log("The '" + notificationsTableName + "' collection doesn't exist. Creating it with sample data...");
+                    populateNofiticationDB();
+                }
+            });
         });
     }
-
-    db.collection(usersTableName, {strict:true}, function(err, collection) {
-        if (err || !collection) {
-            console.log("The '" + usersTableName + "' collection doesn't exist. Creating it with sample data...");
-            populateUsersDB();
-        }
-    });
-
-    db.collection(broadcastsTableName, {strict:true}, function(err, collection) {
-        if (err || !collection) {
-            console.log("The '" + broadcastsTableName + "' collection doesn't exist. Creating it with sample data...");
-            populateBroadcastsDB();
-        }
-    });
-
-    db.collection(notificationsTableName, {strict:true}, function(err, collection) {
-        if (err || !collection) {
-            console.log("The '" + notificationsTableName + "' collection doesn't exist. Creating it with sample data...");
-            populateNofiticationDB();
-        }
-    });
 });
 
 module.exports = mongoClient;
@@ -143,12 +141,12 @@ var populateUsersDB = function() {
         var usersCollection = db.collection(usersTableName);
         try {
             collection.ensureIndex({ lastKnownLocation: "2dsphere"}, {w: 0}, function(err, result) {
-        collection.insert(users, { safe:true }, function(err, result) {
-            if (err) {
-                console.log(err);
-            }
-        });
-    });
+            collection.insert(users, { safe:true }, function(err, result) {
+                if (err) {
+                    console.log(err);
+                }
+                });
+            });
         }
         catch(err) {
             console.log("error", err);
