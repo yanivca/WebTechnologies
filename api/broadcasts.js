@@ -7,46 +7,114 @@
  */
 var tableName = 'broadcasts',
     mongoClient = require('../db/mongo'),
+	ObjectId = mongoClient.ObjectId,
+    user = require('../api/users'),
     db = mongoClient.scheme;
 
-var braodcast = {
-    findById: function findById(req, res) {
-        console.log(req.params);
-        var id = parseInt(req.params.id);
-        console.log('findById: ' + id);
+var broadcast = {
+    publishOrUpdate: function publishOrUpdate(req, res) {
+        var userId = null;
+        if (user.isLoggedIn(req)) {
+            userId = user.getLoggedInUserId(req);
+        }
+
+        if (!userId) {
+            res.jsonp({'msg' : 'must be logged in', 'success' : false});
+            return;
+        }
+
+        var broadcast = req.body;
+        var validInput =
+            broadcast.bitcoinsAmount &&
+            broadcast.bitcoinsAmount > 0 &&
+            broadcast.rate &&
+            broadcast.rate > 0 &&
+			broadcast.type;
+
+        if (!validInput)  {
+            res.jsonp({'msg' : 'bitcoinsAmount rate and type are required. Numbers should be greater then 0', 'success' : false});
+            return;
+        }
+		
+		broadcast.publisher = new ObjectId(userId);
         db.collection(tableName, function(err, collection) {
-            collection.findOne({'id': id}, function(err, item) {
-                console.log(item);
-                res.jsonp(item);
+            collection.save(broadcast, function(err, item) {
+				if (err) {
+					res.jsonp({'msg' : 'publish falied', 'success' : false});
+				}
+				else {
+					res.jsonp({'success' : true});
+				}
+            });
+        })
+    },
+		
+    deleteBroadcast: function deleteBroadcast(req, res) {
+        var userId = null;
+        if (user.isLoggedIn(req)) {
+            userId = user.getLoggedInUserId(req);
+        }
+
+        if (!userId) {
+            res.jsonp({'msg' : 'must be logged in', 'success' : false});
+            return;
+        }
+
+        var broadcastId = req.body._id;
+        if (!broadcastId)  {
+            res.jsonp({'msg' : '_id is required', 'success' : false});
+            return;
+        };
+	
+	    if (broadcastId.length != 24)  {
+            res.jsonp({'msg' : '_id should be 24 chars long', 'success' : false});
+            return;
+        };
+		
+        db.collection(tableName, function(err, collection) {
+			collection.findOne({"_id": new ObjectId(broadcastId) }, function(err, item) {
+				if (err) {
+					res.jsonp({'msg' : 'broadcast does not exist', 'success' : false});
+					return;
+				}
+				else if (item.publisher != new ObjectId(userId)) {
+					res.jsonp({'msg' : 'failed permission', 'success' : false});
+					return;
+				}
+			 });
+            collection.remove({"_id": new ObjectId(broadcastId) }, function(err, item) {
+                if (err) {
+					res.jsonp({'msg' : 'update failed', 'success' : false});
+				}
+				else {
+					res.jsonp({'success' : true});
+				}
             });
         })
     },
 
-    findByManager: function findByManager(req, res) {
-        var id = parseInt(req.params.id);
-        console.log('findByManager: ' + id);
-        db.collection(tableName, function(err, collection) {
-            collection.find({'managerId': id}).toArray(function(err, items) {
-                console.log(items);
-                res.jsonp(items);
-            });
-        });
-    },
+   getBroadcasts: function getBroadcasts(req, res) {
+        var userId = null;
+        if (user.isLoggedIn(req)) {
+            userId = user.getLoggedInUserId(req);
+        }
 
-    findAll: function findAll(req, res) {
-        var name = req.query["name"];
+        if (!userId) {
+            res.jsonp({'msg' : 'must be logged in', 'success' : false});
+            return;
+        }
+
         db.collection(tableName, function(err, collection) {
-            if (name) {
-                collection.find({"fullName": new RegExp(name, "i")}).toArray(function(err, items) {
+            collection.find({"publisher": new ObjectId(userId) }).toArray(function(err, items) {
+                if (err) {
+                    console.log("error", err)
+                }
+                else {
                     res.jsonp(items);
-                });
-            } else {
-                collection.find().toArray(function(err, items) {
-                    res.jsonp(items);
-                });
-            }
-        });
+                }
+            });
+        })
     }
 }
 
-module.exports = braodcast;
+module.exports = broadcast;
