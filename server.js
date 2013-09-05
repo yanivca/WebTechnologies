@@ -8,7 +8,9 @@
 var express = require('express'),
     user = require('./api/users'),
     notification = require('./api/notifications'),
+    bitcoinUi = require('./api/uis'),
     broadcast = require('./api/broadcasts'),
+    path = require('path'),
     portNumber = process.env.PORT || 8888;
 
 var bitcoinsServer = express();
@@ -34,5 +36,12 @@ bitcoinsServer.post('/broadcasts/publish', broadcast.publishOrUpdate);
 bitcoinsServer.delete('/broadcasts/cancel', broadcast.deleteBroadcast);
 bitcoinsServer.get('/broadcasts', broadcast.getBroadcasts);
 
+bitcoinsServer.get('/mobile/:page', bitcoinUi.mobile);
+//bitcoinsServer.get('/desktop/:page', ui.desktop);
+
+
 bitcoinsServer.listen(portNumber);
+bitcoinsServer.set('view engine', 'jade');
+bitcoinsServer.set('views', __dirname + '/html');
+bitcoinsServer.use(express.static(path.join(__dirname, 'public')));
 console.log('Listening on port ' + portNumber);

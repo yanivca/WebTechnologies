@@ -1,0 +1,51 @@
+extends layout
+
+block content
+    #container
+        img#logo(src='../../images/logo.png')
+        a#login(data-role="button", data-rel="dialog", href="#loginDialog") Login
+        a#login(data-role="button", data-rel="dialog", href="#registerDialog") Register
+
+block dialogs
+    #loginDialog(data-role="page")
+        div(data-role="header")
+            h2 Login
+        div(data-role="content")
+            label(for="loginUsername") Username
+            input#loginUsername(type="text", placeholder="Username")
+
+            label(for="loginPassword") Password
+            input#loginPassword(type="password", placeholder="Password")
+
+            #loginError
+            div(data-role="controlgroup", data-type="horizontal")
+                a#loginCancel(data-role="button", data-rel="back") Cancel
+                button#loginButton(type="submit") Login
+
+    #registerDialog(data-role="page")
+        div(data-role="header")
+            h2 Register
+        div(data-role="content")
+            label(for="registerFirstName") First Name
+            input#registerFirstName(type="text", placeholder="First Name")
+
+            label(for="registerLastName") Last Name
+            input#registerLastName(type="text", placeholder="Last Name")
+
+            label(for="registerUsername") Username
+            input#registerUsername(type="text", placeholder="Username")
+
+            label(for="registerPassword") Password
+            input#registerPassword(type="password", placeholder="Password")
+
+            label User type
+            div(data-role="fieldcontain")
+                fieldset(data-role="controlgroup")
+                    input#registerTypeBuyer(type="checkbox", name="type")
+                    label(for="registerTypeBuyer") Buyer
+                    input#registerTypeSeller(type="checkbox", name="type")
+                    label(for="registerTypeSeller") Seller
+
+            div(data-role="controlgroup")
+                a#registerCancel(data-role="button", data-rel="back") Cancel
+                button#registerButton(type="submit") Register
