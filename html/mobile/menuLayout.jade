@@ -1,0 +1,16 @@
+extends layout
+
+block header
+    -if (submenu)
+        #navPanel(data-role="panel", data-display="overlay", data-theme="a")
+            each item in submenu
+                if (selected == item.target)
+                    a(href= item.target, data-role="button", class="ui-btn-active")= item.text
+                else
+                    a(href= item.target, data-role="button")= item.text
+    #header(data-role="header")
+        h1 BitCoinMeetup
+        a(href="mobile/index", data-icon="home", class="ui-btn-right") Home
+        -if(submenu)
+            a(href="#navPanel", class="ui-btn-left") Options
+

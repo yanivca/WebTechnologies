@@ -1,0 +1,11 @@
+extends menuLayout
+
+block content
+    #content(data-role="content")
+        label(for="searchTopNearestAmount") Number of results
+        input#searchTopNearestAmount(type="range", min="5", max="20", step="1", data-highlight="true")
+        label(for="searchTopNearestRange") Range
+        input#searchTopNearestRange(type="range", min="1", max="50", step="1", data-hightlight="true")
+        button#searchTopNearestSubmit Search
+
+block additionalPages

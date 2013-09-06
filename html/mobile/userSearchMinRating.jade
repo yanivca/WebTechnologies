@@ -1,0 +1,9 @@
+extends menuLayout
+
+block content
+    #content(data-role="content")
+        label(for="searchMinRatingRating") Min Rating
+        input#searchMinRatingRating(type="range", min="0", max="10", step="0.1", data-highlight="true")
+        button#searchMinRatingSubmit Search
+
+block additionalPages

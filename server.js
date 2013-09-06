@@ -37,11 +37,13 @@ bitcoinsServer.delete('/broadcasts/cancel', broadcast.deleteBroadcast);
 bitcoinsServer.get('/broadcasts', broadcast.getBroadcasts);
 
 bitcoinsServer.get('/mobile/:page', bitcoinUi.mobile);
+bitcoinsServer.get('/mobile/:page/:subpage', bitcoinUi.mobile);
 //bitcoinsServer.get('/desktop/:page', ui.desktop);
 
 
 bitcoinsServer.listen(portNumber);
 bitcoinsServer.set('view engine', 'jade');
 bitcoinsServer.set('views', __dirname + '/html');
+bitcoinsServer.set('view options', { pretty: true });
 bitcoinsServer.use(express.static(path.join(__dirname, 'public')));
 console.log('Listening on port ' + portNumber);
