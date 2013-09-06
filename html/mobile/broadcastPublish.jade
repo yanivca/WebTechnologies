@@ -1,0 +1,25 @@
+extends menuLayout
+
+block content
+    #content(data-role="content")
+        label(for="broadcastPublishAmount") Amount
+        if (data)
+            input#broadcastPublishAmount(type="number", value=data.amount)
+        else
+            input#broadcastPublishAmount(type="number")
+        label(for="broadcastPublishRate") Rate
+        if (data)
+            input#broadcastPublishRate(type="number", value=data.rate)
+        else
+            input#broadcastPublishRate(type="number")
+        label(for="broadcastPublishType") Type
+        select#broadcastPublishType(data-role="slider")
+            if (data && data.type == "buy")
+                option(value="buy", selected="selected") Buy
+            else
+                option(value="buy") Buy
+            if (data && data.type == "sell")
+                option(value="sell", selected="selected") Sell
+            else
+                option(value="sell") Sell
+        button#broadcastPublishSubmit Publish

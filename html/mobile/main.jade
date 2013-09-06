@@ -1,0 +1,13 @@
+extends layout
+
+
+block header
+    #header(data-role="header")
+        h1 BitCoinMeetup
+
+block content
+    #content(data-role="content")
+        img#logo(src='../../images/logo.png')
+        a(href="userSearch", data-role="button") Search users
+        a(href="notifications", data-role="button") Notifications
+        a(href="broadcasts", data-role="button") Broadcasts

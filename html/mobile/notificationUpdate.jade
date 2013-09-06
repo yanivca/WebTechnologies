@@ -1,0 +1,12 @@
+extends menuLayout
+
+block content
+    #content(data-role="content")
+        label(for="notificationCreateId") To user
+        input#notificationCreateId(type="text", disabled="disabled", value=data.id)
+        label(for="notificationCreateAmount") Amount
+        input#notificationCreateAmount(type="number", disabled="disabled", value=data.amount)
+        label(for="notificationCreateRate") Rate
+        input#notificationCreateRate(type="number")
+        button#notificationCreateSubmit Update
+        button#notificationCreateCancel(data-rel="back") Cancel

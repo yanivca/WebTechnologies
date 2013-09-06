@@ -37,7 +37,6 @@ bitcoinsServer.delete('/broadcasts/cancel', broadcast.deleteBroadcast);
 bitcoinsServer.get('/broadcasts', broadcast.getBroadcasts);
 
 bitcoinsServer.get('/mobile/:page', bitcoinUi.mobile);
-bitcoinsServer.get('/mobile/:page/:subpage', bitcoinUi.mobile);
 //bitcoinsServer.get('/desktop/:page', ui.desktop);
 
 
