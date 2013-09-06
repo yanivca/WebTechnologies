@@ -160,10 +160,9 @@ var user = {
     },
 	
     findById: function findById(req, res) {
-        var id = parseInt(req.params.id);
-
+        var id = req.params.id;
         db.collection(tableName, function(err, collection) {
-            collection.findOne({'id': id}, function(err, item) {
+            collection.findOne({"_id": new ObjectId(id)}, function(err, item) {
                 res.jsonp(item);
             });
         })
