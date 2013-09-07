@@ -121,15 +121,6 @@ function trySignUp() {
     return retDeferred;
 }
 
-function validateLoggedInUser() {
-    var isUserLoggedIn = isLoggedIn();
-    if (!isUserLoggedIn) {
-        $.mobile.changePage("index.htm");
-    }
-
-    return isUserLoggedIn;
-}
-
 function isLoggedIn() {
 
     var loggedin = false;
@@ -175,6 +166,18 @@ function getSearchMinRating(minRating) {
         });
     return requestDeferred;
 }
+
+function getSearchById(userId) {
+
+    var requestDeferred = sendRequest("../users/" + userId, null, "GET");
+    requestDeferred.fail(function(response) {
+        // Show error
+    }).done(function(response) {
+            populateSearchResults(response);
+        });
+    return requestDeferred;
+}
+
 
 function populateSearchResults(response) {
     var container = $("#resultsContent");

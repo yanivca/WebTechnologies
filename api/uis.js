@@ -66,6 +66,9 @@ var bitcoinUi = {
                 case "notificationUpdate":
                     red.render(client + '/notificationUpdate', data);
                     break;
+                default:
+                    res.render(client + '/notificationGetAll', data);
+                    break;
             }
         }
     },
@@ -73,7 +76,7 @@ var bitcoinUi = {
     broadcast: function broadcast(client, req, res) {
         var submenu = {submenu: [
             {target: "broadcastGetAll", text: "Get all broadcasts"},
-            {target: "broadcastPublish", text: "publish broadcast"},
+            {target: "broadcastPublish", text: "publish broadcast"}
         ],
             clientType: client,
             pageName: req.params.page
@@ -116,7 +119,7 @@ var bitcoinUi = {
                 if (page.indexOf("userSearch") == 0) {
                     bitcoinUi.userSearch("mobile", req, res);
                 }
-                if (page.indexOf("notification") == 0) {
+                if (page.indexOf("notifications") == 0) {
                     bitcoinUi.notification("mobile", req, res);
                 }
                 if (page.indexOf("broadcast") == 0) {

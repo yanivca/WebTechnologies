@@ -93,6 +93,31 @@ $(document).on("pageinit", "#userSearchMinRating", function() {
     });
 });
 
+$(document).on("pageinit", "#userSearchById", function() {
+    $("#searchMinRatingSubmit").click(function() {
+        var userId = $("#searchByIdId").val();
+
+        var resDeferred = getSearchById(userId);
+        resDeferred.done(function(response) {
+            if (response.status)
+                $.mobile.changePage("#results");
+        })
+    });
+});
+
+$(document).on("pageinit", "#userSearchById", function() {
+    $("#searchMinRatingSubmit").click(function() {
+        var userId = $("#searchByIdId").val();
+
+        var resDeferred = getSearchById(userId);
+        resDeferred.done(function(response) {
+            if (response.status)
+                $.mobile.changePage("#results");
+        })
+    });
+});
+
+
 $(document).ready(function() {
     $("#logout").click(function() {
         logout();
