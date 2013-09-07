@@ -12,31 +12,31 @@ block additionalPages
             h2 Login
         div(data-role="content")
             label(for="loginUsername") Username
-            input#loginUsername(type="text", placeholder="Username")
+            input#loginUsername(id="loginUser", type="text", placeholder="Username")
 
             label(for="loginPassword") Password
-            input#loginPassword(type="password", placeholder="Password")
+            input#loginPassword(id="loginPass", type="password", placeholder="Password")
 
             #loginError
             div(data-role="controlgroup", data-type="horizontal")
                 a#loginCancel(data-role="button", data-rel="back") Cancel
-                button#loginButton(type="submit") Login
+                button#loginButton(type="submit" onclick="login()") Login
 
     #registerDialog(data-role="page")
         div(data-role="header")
             h2 Register
         div(data-role="content")
             label(for="registerFirstName") First Name
-            input#registerFirstName(type="text", placeholder="First Name")
+            input#registerFirstName(id="first", type="text", placeholder="First Name")
 
             label(for="registerLastName") Last Name
-            input#registerLastName(type="text", placeholder="Last Name")
+            input#registerLastName(id="last", type="text", placeholder="Last Name")
 
             label(for="registerUsername") Username
-            input#registerUsername(type="text", placeholder="Username")
+            input#registerUsername(id="regUser", type="text", placeholder="Username")
 
             label(for="registerPassword") Password
-            input#registerPassword(type="password", placeholder="Password")
+            input#registerPassword(id="regPass", type="password", placeholder="Password")
 
             label(for="registerPasswordConfirm") Password
             input#registerPasswordConfirm(type="password", placeholder="Confirm Password")
@@ -44,12 +44,12 @@ block additionalPages
             label User type
             div(data-role="fieldcontain")
                 fieldset(data-role="controlgroup")
-                    input#registerTypeBuyer(type="checkbox", name="type")
+                    input#registerTypeBuyer(type="checkbox", name="buy")
                     label(for="registerTypeBuyer") Buyer
-                    input#registerTypeSeller(type="checkbox", name="type")
+                    input#registerTypeSeller(type="checkbox", name="sell")
                     label(for="registerTypeSeller") Seller
 
             #registerError
             div(data-role="controlgroup")
                 a#registerCancel(data-role="button", data-rel="back") Cancel
-                button#registerButton(type="submit") Register
+                button#registerButton(type="submit" onclick="register()") Register

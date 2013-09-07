@@ -3,9 +3,8 @@ extends menuLayout
 block content
     #content(data-role="content")
         label(for="searchByIdId") User ID
-        input#searchByIdId(type="text")
-        button#searchMinRatingSubmit Search
-
+        input#searchByIdId(id="id", type="text")
+        button#searchMinRatingSubmit(onclick="searchById()") Search
 block additionalPages
     #results(data-role="page")
         #resultsHeader(data-role="header")
