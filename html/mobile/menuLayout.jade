@@ -5,12 +5,13 @@ block header
         #navPanel(data-role="panel", data-display="overlay", data-theme="a")
             each item in submenu
                 if (selected == item.target)
-                    a(href= item.target, data-role="button", class="ui-btn-active")= item.text
+                    a(href= item.target, data-role="button", class="ui-btn-active", rel="external")= item.text
                 else
-                    a(href= item.target, data-role="button")= item.text
+                    a(href= item.target, data-role="button", rel="external")= item.text
     #header(data-role="header")
         h1 BitCoinMeetup
-        a(href="main", data-icon="home", class="ui-btn-right") Home
+        div(data-role="controlgroup", data-type="horizontal", class="ui-btn-right")
+            a#logout(data-icon="back", data-role="button", data-inline="true") Logout
+            a(href="main", data-icon="home", data-role="button", data-inline="true") Home
         -if(submenu)
             a(href="#navPanel", class="ui-btn-left") Options
-

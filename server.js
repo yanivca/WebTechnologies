@@ -21,6 +21,7 @@ bitcoinsServer.use(express.bodyParser());
 bitcoinsServer.post('/users/subscribe', user.subscribe);
 bitcoinsServer.get('/users/login/:username/:password', user.login);
 bitcoinsServer.get('/users/logout', user.logout);
+bitcoinsServer.get('/users/isloggedin', user.getUserId);
 bitcoinsServer.get('/users/minRating/:minRating', user.findUsersWithMinRating);
 bitcoinsServer.get('/users/near', user.findTopCloseUsers);
 bitcoinsServer.get('/users/near/:maxItems', user.findTopCloseUsers);

@@ -38,6 +38,9 @@ block additionalPages
             label(for="registerPassword") Password
             input#registerPassword(type="password", placeholder="Password")
 
+            label(for="registerPasswordConfirm") Password
+            input#registerPasswordConfirm(type="password", placeholder="Confirm Password")
+
             label User type
             div(data-role="fieldcontain")
                 fieldset(data-role="controlgroup")
@@ -46,6 +49,7 @@ block additionalPages
                     input#registerTypeSeller(type="checkbox", name="type")
                     label(for="registerTypeSeller") Seller
 
+            #registerError
             div(data-role="controlgroup")
                 a#registerCancel(data-role="button", data-rel="back") Cancel
                 button#registerButton(type="submit") Register

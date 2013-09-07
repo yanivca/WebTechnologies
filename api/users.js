@@ -35,7 +35,9 @@ var user = {
 			collection.findOne({'username': user.username}, function(err, item) {
 				if (item == null) {
                         collection.insert(user, function(err, item) {
-                            res.jsonp(item);
+                            res.jsonp({'msg': 'Registration successfull',
+                                'success': true,
+                                'data': item});
                         });
 					}
 				else {
@@ -58,7 +60,7 @@ var user = {
         }
 
 		if (req.session.loggedInUser) {
-		    res.jsonp({'msg' : 'user already logged in', 'success' : false});
+		    res.jsonp({'msg' : 'user already logged in', 'success' : true});
             return;
 		}
 
@@ -101,15 +103,17 @@ var user = {
             return;
 		}
 
-        db.command( { count:'users',
-                 query: { positiveFeedback: { $gt: minRating } }
-               } ,  function(err, item) {		   
-				if (item) {
-					res.jsonp({'count' : item.n, 'success' : true});
-				}
-				else {
-					res.jsonp(res.jsonp({'success' : false}));
-					}
+        db.collection(tableName, function(err, collection) {
+            if (err) {
+                console.log("db error", err);
+            }
+            collection.find({ positiveFeedback: { $gt: minRating }}).toArray(function(err, items) {
+                if (items) {
+                    res.jsonp({'count' : items.length, 'success' : true, status: true, data: items});
+                } else {
+                    res.jsonp(res.jsonp({'success' : false}));
+                }
+            });
         });
     },
 
@@ -148,7 +152,7 @@ var user = {
                         if (err) {
                             console.log("error", err);
                         }
-                        res.jsonp(items);
+                        res.jsonp({'count' : items.n, 'success' : true, status: true, data: items});
                     })
                 }
                 else {
@@ -164,7 +168,7 @@ var user = {
 
         db.collection(tableName, function(err, collection) {
             collection.findOne({'id': id}, function(err, item) {
-                res.jsonp(item);
+                res.jsonp({'count' : item.n, 'success' : true, status: true, data: item});
             });
         })
     },
@@ -192,12 +196,22 @@ var user = {
     getLoggedInUserId: function getLoggedInUserId(req) {
         var userId = null;
 
-        if (this.isLoggedIn(req)) {
+        if (user.isLoggedIn(req)) {
             userId = req.session.loggedInUser;
         }
 
         return userId;
+    },
+
+    getUserId: function getUserId(req, res) {
+        var userId = user.getLoggedInUserId(req);
+        if (userId) {
+            res.jsonp({"userId": userId});
+        } else {
+            res.jsonp({});
+        }
     }
+
 }
 
 module.exports = user;

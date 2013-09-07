@@ -3,9 +3,13 @@ extends menuLayout
 block content
     #content(data-role="content")
         label(for="searchTopNearestAmount") Number of results
-        input#searchTopNearestAmount(type="range", min="5", max="20", step="1", data-highlight="true")
+        input#searchTopNearestAmount(type="range", min="5", max="20", step="1", data-highlight="true", value="5")
         label(for="searchTopNearestRange") Range
-        input#searchTopNearestRange(type="range", min="1", max="50", step="1", data-hightlight="true")
+        input#searchTopNearestRange(type="range", min="1", max="50", step="1", data-hightlight="true", value="1")
         button#searchTopNearestSubmit Search
 
 block additionalPages
+    #results(data-role="page")
+        #resultsHeader(data-role="header")
+            h1 Search By Distance results
+        #resultsContent(data-role="content")

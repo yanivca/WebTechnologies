@@ -9,7 +9,10 @@ var jade = require('jade');
 
 var bitcoinUi = {
     index: function index(client, req, res) {
-        res.render(client + '/index', {clientType: client});
+        res.render(client + '/index', {
+            clientType: client,
+            pageName: req.params.page
+        });
     },
 
     userSearch: function userSearch(client, req, res) {
@@ -19,7 +22,8 @@ var bitcoinUi = {
             {target: "userSearchById", text: "Find by ID"},
             {target: "userSearchAll", text: "Get All"}
         ],
-            clientType: client
+            clientType: client,
+            pageName: req.params.page
         };
 
         if (req.params.page) {
@@ -48,7 +52,8 @@ var bitcoinUi = {
     notification: function notification(client, req, res) {
         var data = {
             clientType: client,
-            data: req.body
+            data: req.body,
+            pageName: req.params.page
         }
         if (req.params.page) {
             switch(req.params.page) {
@@ -70,7 +75,8 @@ var bitcoinUi = {
             {target: "broadcastGetAll", text: "Get all broadcasts"},
             {target: "broadcastPublish", text: "publish broadcast"},
         ],
-            clientType: client
+            clientType: client,
+            pageName: req.params.page
         };
 
         if (req.params.page) {
@@ -89,7 +95,10 @@ var bitcoinUi = {
     },
 
     main: function main(client, req, res) {
-        res.render(client + '/main', {clientType: client});
+        res.render(client + '/main', {
+            clientType: client,
+            pageName: req.params.page
+        });
     },
 
     mobile: function mobile(req, res) {
