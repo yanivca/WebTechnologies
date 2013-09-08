@@ -59,7 +59,6 @@ var bitcoinUi = {
         if (req.params.page) {
             switch(req.params.page) {
                 case "notificationCreate":
-                    console.log("rendering notification");
                     res.render(client + '/notificationCreate', data);
                     break
                 case "notificationGetAll":

@@ -44,7 +44,7 @@ var notification = {
 
         db.collection(tableName, function(err, collection) {
             collection.insert(notification, function(err, item) {
-                res.jsonp(item);
+                res.jsonp({'success' : true});
             });
         })
     },

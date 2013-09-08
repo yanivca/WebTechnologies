@@ -33,6 +33,21 @@ function initLoginComponent() {
     })
 }
 
+function initNotificationCreate() {
+
+    $("#notificationCreateSubmit").on("click", function() {
+        var userId = $("#notificationCreateId").val();
+        var amount = $("#notificationCreateAmount").val();
+        var rate = $("#notificationCreateRate").val();
+
+        var deferred = tryNotificationCreate(userId, amount, rate);
+        deferred.done(function(response) {
+            $.mobile.back();
+        })
+    });
+
+}
+
 function login(username, password) {
 
     var loggedIn = isLoggedIn();
@@ -146,6 +161,10 @@ $(document).on("pageinit", "#broadcastGetAll", function() {
 
 $(document).on("pageinit", "#broadcastPublish", function() {
     initPublishComponent();
+});
+
+$(document).on("pageinit", "#notificationCreate", function() {
+    initNotificationCreate();
 });
 
 

@@ -54,6 +54,7 @@ var user = {
             username &&
             password;
 
+        console.log("logging in");
         if (!validInput)  {
             res.jsonp({'msg' : 'username and password are required', 'success' : false});
             return;
@@ -67,16 +68,18 @@ var user = {
         db.collection(tableName, function(err, collection) {
             if (err) {
                 console.log("db error", err);
-            }
-			collection.findOne({'username': username, 'password': password}, function(err, item) {
-				if (item) {
+                res.jsonp({msg: "General Error", success: false});
+            } else {
+                collection.findOne({'username': username, 'password': password}, function(err, item) {
+                    if (item) {
                         req.session.loggedInUser = item._id;
-						res.jsonp({'msg' : 'login success!', 'success' : true});
-					}
-				else {
-					res.jsonp({'msg' : 'login failed!', 'success' : false});
-				}
-            });
+                        res.jsonp({'msg' : 'login success!', 'success' : true});
+                    }
+                    else {
+                        res.jsonp({'msg' : 'login failed!', 'success' : false});
+                    }
+                });
+            }
         })
     },
 	

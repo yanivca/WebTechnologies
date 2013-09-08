@@ -34,7 +34,7 @@ function tryLogin(username, password) {
     }
 
     if (retDeferred.state() != "rejected") {
-        requestDeferred = sendRequest("/users/login/" + username + "/" + password, "GET");
+        requestDeferred = sendRequest("../users/login/" + username + "/" + password);
         requestDeferred.always(function(response) {
             if (response && response.success) {
                 $("#loginUsername").val("");
@@ -143,6 +143,40 @@ function logout() {
     requestDeferred.always(function(response) {
         window.location.href = "index";
     });
+}
+
+function tryNotificationCreate(userid, amount, ratio) {
+
+    var retDeferred = new $.Deferred();
+    if (!userid) {
+        $("#notificationCreateError").text("Missing user ID");
+        retDeferred.reject();
+    }
+
+    if (!amount) {
+        $("#notificationCreateError").text("Missing amount");
+        retDeferred.reject();
+    }
+
+    if (!ratio) {
+        $("#notificationCreateError").text("Missing ratio");
+        retDeferred.reject();
+    }
+
+    if (retDeferred.state() != "rejected") {
+        var params = "to=" + userid + "&bitcoinsAmount=" + amount + "&rate=" + ratio;
+
+        var requestDeferred = sendRequest("../notifications/notify",params, "POST");
+        requestDeferred.always(function(response) {
+            if (response && response.success) {
+                retDeferred.resolve(response);
+            } else {
+                retDeferred.reject(response);
+            }
+        });
+    }
+
+    return retDeferred;
 }
 
 function getSearchByRange(numItems, maxDistance) {
