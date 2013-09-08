@@ -272,7 +272,7 @@ function populateSearchResults(response) {
 }
 
 function populateNotifications(response) {
-    var container = $("#content");
+    var container = $("#innerResults");
 
     container.text("");
 
