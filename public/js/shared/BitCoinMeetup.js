@@ -210,18 +210,23 @@ function getBroadcasts() {
 }
 
 function populateSearchResults(response) {
-    var container = $("#resultsContent");
+    var container = $("#innerResults");
+    var html;
+
     container.text("");
+
     if (response.count == 0 || !response.data) {
         container.append("No search matches found");
     } else {
-        container.append("<div data-role=\"controlgroup\" id=\"innerResults\"></div>");
         for (var i=0; i < response.count; i++) {
-            $("#innerResults").append("<a data-role=\"button\" data-id=\"" + response.data[i]._id + "\">" + response.data[i].username + "</a>");
+            html = $("<a data-role=\"button\" id=\"" + response.data[i]._id + "\">" + response.data[i].username + "</a>");
+            container.append(html);
         }
     }
 
-    container.append("<a data-role=\"button\" data-rel=\"back\" data-icon=\"back\" rel=\"external\">Back</a>");
+    html = $("<a data-role=\"button\" data-rel=\"back\" data-icon=\"back\" rel=\"external\">Back</a>");
+    container.append(html);
+    container.trigger("create");
 }
 
 function populateNotifications(response) {
@@ -239,23 +244,33 @@ function populateNotifications(response) {
     }
 
     container.append("<a data-role=\"button\" data-rel=\"back\" data-icon=\"back\" rel=\"external\">Back</a>");
+    container.trigger("create");
 }
 
 function populateBroadcasts(response) {
-    var container = $("#content");
+    var container = $("#innerResults");
+    var html;
 
     container.text("");
 
     if (response.count == 0 || !response.data) {
         container.append("No Broadcasts");
     } else {
-        container.append("<div data-role=\"controlgroup\" id=\"innerResults\"></div>");
         for (var i=0; i < response.count; i++) {
-            $("#innerResults").append("<a data-role=\"button\" data-id=\"" + response.data[i]._id + "\">" + response.data[i].username + "</a>");
+            html = $("<a data-role=\"button\" data-context=\"userToNotify\" id=\"" + response.data[i]._id + "\">" + response.data[i].username + "</a>");
+            container.append(html);
         }
     }
 
-    container.append("<a data-role=\"button\" data-rel=\"back\" data-icon=\"back\" rel=\"external\">Back</a>");
+    html = $("<a data-role=\"button\" data-rel=\"back\" data-icon=\"back\" rel=\"external\">Back</a>");
+    container.append(html);
+    container.trigger("create");
+
+    $("a[data-context='userToNotify']").on("click", function() {
+        var id = this.attr("id");
+
+
+    })
 }
 
 function tryPublishBroadcast(amount, ratio, type) {

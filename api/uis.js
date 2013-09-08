@@ -38,6 +38,7 @@ var bitcoinUi = {
                     res.render(client + '/userSearchById', submenu);
                     break;
                 case "userSearchAll":
+
                     res.render(client + '/userSearchAll', submenu);
                     break;
                 default:
