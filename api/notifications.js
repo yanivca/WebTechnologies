@@ -33,7 +33,7 @@ var notification = {
             notification.rate > 0;
 
         if (!validInput)  {
-            res.jsonp({'msg' : 'to, bitcoinsAmount and rate are required. Numbers should be greater then 0', 'success' : false});
+            res.jsonp({'msg' : 'to, bitcoins Amount and rate are required. Numbers should be greater then 0', 'success' : false});
             return;
         }
 
@@ -97,7 +97,7 @@ var notification = {
                     console.log("error", err)
                 }
                 else {
-                    res.jsonp(items);
+                    res.jsonp({'count' : items.length, 'success' : true, status: true, data: items});
                 }
             });
         })
