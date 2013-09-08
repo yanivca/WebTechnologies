@@ -282,7 +282,7 @@ function populateNotifications(response) {
     } else {
         container.append("<div data-role=\"controlgroup\" id=\"innerResults\"></div>");
         for (var i=0; i < response.count; i++) {
-            $("#innerResults").append("<a data-context=\"notificationToRead\" data-role=\"button\" data-id=\"" + response.data[i]._id + "\">Type: " + response.data[i].type + " Amount: " + response.data[i].bitconsAmount + " Rate: " + response.data[i].rate +"</a>");
+            $("#innerResults").append("<a data-context=\"notificationToRead\" data-role=\"button\" data-id=\"" + response.data[i]._id + "\" Amount: " + response.data[i].bitcoinsAmount + " Rate: " + response.data[i].rate +"</a>");
         }
     }
 
