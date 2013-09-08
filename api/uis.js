@@ -59,6 +59,7 @@ var bitcoinUi = {
         if (req.params.page) {
             switch(req.params.page) {
                 case "notificationCreate":
+                    console.log("rendering notification");
                     res.render(client + '/notificationCreate', data);
                     break
                 case "notificationGetAll":
@@ -120,7 +121,7 @@ var bitcoinUi = {
                 if (page.indexOf("userSearch") == 0) {
                     bitcoinUi.userSearch("mobile", req, res);
                 }
-                if (page.indexOf("notifications") == 0) {
+                if (page.indexOf("notification") == 0) {
                     bitcoinUi.notification("mobile", req, res);
                 }
                 if (page.indexOf("broadcast") == 0) {

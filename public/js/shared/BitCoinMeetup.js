@@ -219,7 +219,7 @@ function populateSearchResults(response) {
         container.append("No search matches found");
     } else {
         for (var i=0; i < response.count; i++) {
-            html = $("<a data-role=\"button\" id=\"" + response.data[i]._id + "\">" + response.data[i].username + "</a>");
+            html = $("<a data-role=\"button\" data-context=\"userToNotify\" id=\"" + response.data[i]._id + "\">" + response.data[i].username + "</a>");
             container.append(html);
         }
     }
@@ -227,6 +227,13 @@ function populateSearchResults(response) {
     html = $("<a data-role=\"button\" data-rel=\"back\" data-icon=\"back\" rel=\"external\">Back</a>");
     container.append(html);
     container.trigger("create");
+
+    $("a[data-context='userToNotify']").on("click", function() {
+        var id = this.id;
+
+        var params = {id: id};
+        post_to_url("notificationCreate", params, "POST");
+    })
 }
 
 function populateNotifications(response) {
@@ -257,7 +264,7 @@ function populateBroadcasts(response) {
         container.append("No Broadcasts");
     } else {
         for (var i=0; i < response.count; i++) {
-            html = $("<a data-role=\"button\" data-context=\"userToNotify\" id=\"" + response.data[i]._id + "\">" + response.data[i].username + "</a>");
+            html = $("<a data-role=\"button\" id=\"" + response.data[i]._id + "\">" + response.data[i].username + "</a>");
             container.append(html);
         }
     }
@@ -266,11 +273,6 @@ function populateBroadcasts(response) {
     container.append(html);
     container.trigger("create");
 
-    $("a[data-context='userToNotify']").on("click", function() {
-        var id = this.attr("id");
-
-
-    })
 }
 
 function tryPublishBroadcast(amount, ratio, type) {
@@ -305,4 +307,28 @@ function tryPublishBroadcast(amount, ratio, type) {
             }
         })
     }
+}
+
+function post_to_url(path, params, method) {
+    method = method || "post"; // Set method to post by default if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+        }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
 }
