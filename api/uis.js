@@ -65,8 +65,12 @@ var bitcoinUi = {
                     res.render(client + '/notificationGetAll', data);
                     break;
                 case "notificationUpdate":
-                    red.render(client + '/notificationUpdate', data);
+                    res.render(client + '/notificationUpdate', data);
                     break;
+                case "notificationDetails":
+                    res.render(client + '/notificationDetails', data);
+                    break;
+
                 default:
                     res.render(client + '/notificationGetAll', data);
                     break;

@@ -282,12 +282,20 @@ function populateNotifications(response) {
     } else {
         container.append("<div data-role=\"controlgroup\" id=\"innerResults\"></div>");
         for (var i=0; i < response.count; i++) {
-            $("#innerResults").append("<a data-role=\"button\" data-id=\"" + response.data[i]._id + "\">" + response.data[i].username + "</a>");
+            $("#innerResults").append("<a data-context=\"notificationToRead\" data-role=\"button\" data-id=\"" + response.data[i]._id + "\">Type: " + response.data[i].type + " Amount: " + response.data[i].bitconsAmount + " Rate: " + response.data[i].rate +"</a>");
         }
     }
 
     container.append("<a data-role=\"button\" data-rel=\"back\" data-icon=\"back\" rel=\"external\">Back</a>");
     container.trigger("create");
+
+    $("a[data-context='notificationToRead']").on("click", function() {
+        var id = this.id;
+
+        var params = {id: id};
+        post_to_url("notificationDetails", params, "POST");
+    })
+
 }
 
 function populateBroadcasts(response) {
@@ -301,7 +309,7 @@ function populateBroadcasts(response) {
         container.trigger("create");
     } else {
         for (var i=0; i < response.count; i++) {
-            html = $("<a data-role=\"button\" id=\"" + response.data[i]._id + "\">" + response.data[i].username + "</a>");
+            html = $("<a data-role=\"button\" id=\"" + response.data[i]._id + "\">" + response.data[i].firstName + " " + response.data[i].lastName + "</a>");
             container.append(html);
         }
     }
