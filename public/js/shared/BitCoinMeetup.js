@@ -251,6 +251,9 @@ function populateSearchResults(response) {
 
     if (response.count == 0 || !response.data) {
         container.append("No search matches found");
+        html = $("<a data-role=\"button\" data-rel=\"back\" data-icon=\"back\" rel=\"external\">Back</a>");
+        container.append(html);
+        container.trigger("create");
     } else {
         for (var i=0; i < response.count; i++) {
             html = $("<a data-role=\"button\" data-context=\"userToNotify\" id=\"" + response.data[i]._id + "\">" + response.data[i].username + "</a>");
@@ -277,6 +280,9 @@ function populateNotifications(response) {
 
     if (response.count == 0 || !response.data) {
         container.append("No Notifications");
+        html = $("<a data-role=\"button\" data-rel=\"back\" data-icon=\"back\" rel=\"external\">Back</a>");
+        container.append(html);
+        container.trigger("create");
     } else {
         container.append("<div data-role=\"controlgroup\" id=\"innerResults\"></div>");
         for (var i=0; i < response.count; i++) {
@@ -296,6 +302,9 @@ function populateBroadcasts(response) {
 
     if (response.count == 0 || !response.data) {
         container.append("No Broadcasts");
+        html = $("<a data-role=\"button\" data-rel=\"back\" data-icon=\"back\" rel=\"external\">Back</a>");
+        container.append(html);
+        container.trigger("create");
     } else {
         for (var i=0; i < response.count; i++) {
             html = $("<a data-role=\"button\" id=\"" + response.data[i]._id + "\">" + response.data[i].username + "</a>");
