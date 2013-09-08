@@ -147,7 +147,7 @@ $(document).on("pageinit", "#userSearchAll", function() {
     getSearchAll();
 });
 
-$(document).on("pageinit", "#notifications", function() {
+$(document).on("pageinit", "#notification", function() {
     getNotifications();
 });
 
