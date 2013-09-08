@@ -110,7 +110,7 @@ var broadcast = {
                     console.log("error", err)
                 }
                 else {
-                    res.jsonp(items);
+                    res.jsonp({'count' : items.length, 'success' : true, status: true, data: items});
                 }
             });
         })

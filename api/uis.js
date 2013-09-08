@@ -88,7 +88,7 @@ var bitcoinUi = {
                     res.render(client + '/broadcastGetAll', submenu);
                     break
                 case "broadcastPublish":
-                    res.render(client + '/notificationGetAll', submenu);
+                    res.render(client + '/broadcastPublish', submenu);
                     break;
                 default:
                     res.render(client + '/broadcastGetAll', submenu);

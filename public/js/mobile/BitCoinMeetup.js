@@ -48,6 +48,17 @@ function login(username, password) {
     });
 }
 
+function initPublishComponent() {
+
+    $("#broadcastPublishSubmit").on("click", function() {
+        var amount = $("#broadcastPublishAmount").val();
+        var rate = $("#broadcastPublishRate").val();
+        var type = $("#broadcastPublishType").val();
+
+        tryPublishBroadcast(amount, rate, type);
+    })
+}
+
 $(document).on("pageinit", "#loginDialog", function() {
     initLoginComponent();
 });
@@ -115,6 +126,26 @@ $(document).on("pageinit", "#userSearchById", function() {
                 $.mobile.changePage("#results");
         })
     });
+});
+
+$(document).on("pageinit", "#userSearchAll", function() {
+    getSearchAll();
+});
+
+$(document).on("pageinit", "#notifications", function() {
+    getNotifications();
+});
+
+$(document).on("pageinit", "#broadcasts", function() {
+    getBroadcasts();
+});
+
+$(document).on("pageinit", "#broadcastGetAll", function() {
+    getBroadcasts();
+});
+
+$(document).on("pageinit", "#broadcastPublish", function() {
+    initPublishComponent();
 });
 
 

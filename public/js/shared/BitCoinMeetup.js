@@ -60,8 +60,8 @@ function trySignUp() {
     var username = $("#registerUsername").val();
     var password = $("#registerPassword").val();
     var confirmpassword = $("#registerPasswordConfirm").val();
-    var usertypeBuyer = $("#registerTypeBuyer").val();
-    var usertypeSeller = $("#registerTypeSeller").val();
+    var usertypeBuyer = $("#registerTypeBuyer").is(":checked");
+    var usertypeSeller = $("#registerTypeSeller").is(":checked");
     var usertype = new Array();
 
     //var emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/;
@@ -178,6 +178,36 @@ function getSearchById(userId) {
     return requestDeferred;
 }
 
+function getSearchAll() {
+
+    var requestDeferred = sendRequest("../users", null, "GET");
+    requestDeferred.fail(function(response) {
+        // Show error
+    }).done(function(response) {
+            populateSearchResults(response);
+        });
+    return requestDeferred;
+}
+
+function getNotifications() {
+    var requestDeferred = sendRequest("../notifications", null, "GET");
+    requestDeferred.fail(function(response) {
+        // Show error
+    }).done(function(response) {
+            populateNotifications(response);
+        });
+    return requestDeferred;
+}
+
+function getBroadcasts() {
+    var requestDeferred = sendRequest("../broadcasts", null, "GET");
+    requestDeferred.fail(function(response) {
+        // Show error
+    }).done(function(response) {
+            populateBroadcasts(response);
+        });
+    return requestDeferred;
+}
 
 function populateSearchResults(response) {
     var container = $("#resultsContent");
@@ -185,12 +215,79 @@ function populateSearchResults(response) {
     if (response.count == 0 || !response.data) {
         container.append("No search matches found");
     } else {
-        container.append("<div data-role=\"controlgroup\">");
+        container.append("<div data-role=\"controlgroup\" id=\"innerResults\"></div>");
         for (var i=0; i < response.count; i++) {
-            container.append("<a data-role=\"button\" data-id=\"" + response.data[i]._id + "\">" + response.data[i].username + "</a>");
+            $("#innerResults").append("<a data-role=\"button\" data-id=\"" + response.data[i]._id + "\">" + response.data[i].username + "</a>");
         }
-        container.append("</div>");
     }
 
     container.append("<a data-role=\"button\" data-rel=\"back\" data-icon=\"back\" rel=\"external\">Back</a>");
+}
+
+function populateNotifications(response) {
+    var container = $("#content");
+
+    container.text("");
+
+    if (response.count == 0 || !response.data) {
+        container.append("No Notifications");
+    } else {
+        container.append("<div data-role=\"controlgroup\" id=\"innerResults\"></div>");
+        for (var i=0; i < response.count; i++) {
+            $("#innerResults").append("<a data-role=\"button\" data-id=\"" + response.data[i]._id + "\">" + response.data[i].username + "</a>");
+        }
+    }
+
+    container.append("<a data-role=\"button\" data-rel=\"back\" data-icon=\"back\" rel=\"external\">Back</a>");
+}
+
+function populateBroadcasts(response) {
+    var container = $("#content");
+
+    container.text("");
+
+    if (response.count == 0 || !response.data) {
+        container.append("No Broadcasts");
+    } else {
+        container.append("<div data-role=\"controlgroup\" id=\"innerResults\"></div>");
+        for (var i=0; i < response.count; i++) {
+            $("#innerResults").append("<a data-role=\"button\" data-id=\"" + response.data[i]._id + "\">" + response.data[i].username + "</a>");
+        }
+    }
+
+    container.append("<a data-role=\"button\" data-rel=\"back\" data-icon=\"back\" rel=\"external\">Back</a>");
+}
+
+function tryPublishBroadcast(amount, ratio, type) {
+    var requestDeferred, retDeferred = new $.Deferred();
+
+    if (!amount) {
+        $("#publishError").text("Must specify amount");
+        retDeferred.reject();
+    }
+
+    if (!ratio) {
+        $("#publishError").text("Must specify ratio");
+        retDeferred.reject();
+    }
+
+    if (!type) {
+        $("#publishError").text("Must specify type");
+        retDeferred.reject();
+    }
+
+    if (retDeferred.state() != "rejected") {
+        var params = "bitcoinsAmount=" + amount + "&rate=" + ratio + "&type=" + type;
+        requestDeferred = sendRequest("../broadcasts/publish", params, "POST");
+        requestDeferred.always(function(response) {
+            if (response && response.success) {
+                $("#publishError").text("Broadcast updated");
+                retDeferred.resolve(response);
+            } else {
+                var message = response.message || "General error";
+                $("#publishError").text(message);
+                retDeferred.reject(response);
+            }
+        })
+    }
 }

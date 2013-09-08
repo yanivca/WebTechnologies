@@ -178,11 +178,11 @@ var user = {
         db.collection(tableName, function(err, collection) {
             if (name) {
                 collection.find({}).toArray(function(err, items) {
-                    res.jsonp(items);
+                    res.jsonp({'count' : items.length, 'success' : true, status: true, data: items});
                 });
             } else {
                 collection.find().toArray(function(err, items) {
-                    res.jsonp(items);
+                    res.jsonp({'count' : items.length, 'success' : true, status: true, data: items});
                 });
             }
         });

@@ -4,7 +4,7 @@ block content
     #content(data-role="content")
         label(for="broadcastPublishAmount") Amount
         if (data)
-            input#broadcastPublishAmount(type="number", value=data.amount)
+            input#broadcastPublishAmount(type="number", value=data.amount, min="1")
         else
             input#broadcastPublishAmount(type="number")
         label(for="broadcastPublishRate") Rate
@@ -22,4 +22,5 @@ block content
                 option(value="sell", selected="selected") Sell
             else
                 option(value="sell") Sell
+        #publishError
         button#broadcastPublishSubmit Publish
