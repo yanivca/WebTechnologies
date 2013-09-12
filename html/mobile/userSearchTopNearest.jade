@@ -2,6 +2,14 @@ extends menuLayout
 
 block content
     #content(data-role="content")
+        h3 Search for users in your area
+        button#showMap Show Map
+        
+        #info(data-role="content")
+            #map(data-role="controlgroup")
+
+//block content
+    #content(data-role="content")
         h3 Search by distance will be available in the next version
         button#searchTopNearestSubmit(data-rel="back") Back
 
