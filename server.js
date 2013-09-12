@@ -6,6 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 var express = require('express'),
+	http = require('http'),
+	io = require('socket.io'),
     user = require('./api/users'),
     notification = require('./api/notifications'),
     bitcoinUi = require('./api/uis'),
@@ -41,10 +43,24 @@ bitcoinsServer.get('/mobile/:page', bitcoinUi.mobile);
 bitcoinsServer.post('/mobile/:page', bitcoinUi.mobile);
 //bitcoinsServer.get('/desktop/:page', ui.desktop);
 
-
-bitcoinsServer.listen(portNumber);
 bitcoinsServer.set('view engine', 'jade');
 bitcoinsServer.set('views', __dirname + '/html');
 bitcoinsServer.set('view options', { pretty: true });
 bitcoinsServer.use(express.static(path.join(__dirname, 'public')));
+
+var server = http.createServer(bitcoinsServer);
+server.listen(portNumber);
 console.log('Listening on port ' + portNumber);
+
+var sio = io.listen(server);
+
+//listen for incoming connections from client
+sio.sockets.on('connection', function (socket) {
+ 
+  // start listening for coords
+  socket.on('send:coords', function (data) {
+ 
+    // broadcast your coordinates to everyone except you
+    socket.broadcast.emit('load:coords', data);
+  });
+});
