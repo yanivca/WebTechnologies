@@ -169,8 +169,8 @@ var user = {
     findById: function findById(req, res) {
         var id = req.params.id;
         db.collection(tableName, function(err, collection) {
-            collection.findOne({'id': id}, function(err, item) {
-                res.jsonp({'count' : item.n, 'success' : true, status: true, data: item});
+            collection.find({'_id': new ObjectId(id)}).toArray(function(err, items) {
+                res.jsonp({'count' : items.length, 'success' : true, status: true, data: items});
             });
         })
     },
