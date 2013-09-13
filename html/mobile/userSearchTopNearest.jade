@@ -1,12 +1,15 @@
-extends menuLayout
+//extends menuLayout
 
-block content
-    #content(data-role="content")
-        h3 Search for users in your area
-        button#showMap Show Map
-        
-        #info(data-role="content")
-            #map(data-role="controlgroup")
+html
+  body
+    p#info Click the button to get your position:
+    button(onclick='getLocation()') Show Map
+    #map
+    
+        script(type='text/javascript', src='../../js/jquery-1.10.2.min.js')
+        script(type='text/javascript', src='../../js/shared/geo.js')
+        script(type='text/javascript', src="http://maps.google.com/maps/api/js?sensor=false")
+        script(src="/socket.io/socket.io.js")
 
 //block content
     #content(data-role="content")
