@@ -10,7 +10,7 @@ function getLocation() {
     var info = $("#info");
     var doc = $(document);
  
-    var sentData = {}
+    var sentData = {};
     var connects = {};
     var markers = {};
     var active = false;
@@ -35,7 +35,7 @@ function getLocation() {
     function positionSuccess(position) {
     	var lat = position.coords.latitude;
     	var lng = position.coords.longitude;
-    	var latlng = new google.maps.LatLng(lat, lng)
+    	var latlng = new google.maps.LatLng(lat, lng);
     	mapholder = $("#map");
     	mapholder.height(500);
     	mapholder.width(800);
@@ -49,14 +49,14 @@ function getLocation() {
     			style : google.maps.NavigationControlStyle.SMALL
     		}
     	};
-    	var map = new google.maps.Map(document.getElementById("map"),
+    	map = new google.maps.Map(document.getElementById("map"),
     			myOptions);
     	var userMarker = new google.maps.Marker({
     		position : latlng,
     		map : map,
     		title : "You are here!"
     	});
-    	
+
         // send coords on when user is active
         doc.on("mousemove", function() {
             active = true; 
@@ -83,10 +83,10 @@ function getLocation() {
         	alert("Someone just entered");
         	var newlatlng = new google.maps.LatLng(data.coords[i].lat, data.coords[i].lng);
         	var marker = new google.maps.Marker({
-        		position : newlatlng,
-        		title : userId
+        		position : newlatlng, 
+	    		map : map,
+	    		title : userId
         	});
-        	marker.setMap(map);
             markers[data.id] = marker;
         }
     }
