@@ -11,7 +11,6 @@ function getLocation() {
     var doc = $(document);
  
     var sentData = {}
- 
     var connects = {};
     var markers = {};
     var active = false;
@@ -30,16 +29,16 @@ function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
     } else {
-        $(".map").text("Your browser is out of fashion, there\'s no geolocation!");
+        $("#map").text("Your browser does not support geolocation");
     }
  
     function positionSuccess(position) {
     	var lat = position.coords.latitude;
     	var lng = position.coords.longitude;
     	var latlng = new google.maps.LatLng(lat, lng)
-    	mapholder = document.getElementById('map')
-    	mapholder.style.height = '500px';
-    	mapholder.style.width = '800px';
+    	mapholder = $("#map");
+    	mapholder.height(500);
+    	mapholder.width(800);
 
     	var myOptions = {
     		center : latlng,
