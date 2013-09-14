@@ -1,9 +1,8 @@
 function getLocation() {
 	// get user id
-	var userId;
-	$.getJSON('../users/isloggedin/', function(data) {
-		userId = data.userId;
-	});
+	var userId = getUserId();
+	var userName = getUserName(userId);
+
 	var socket = io.connect("/");
 	var map;
 
@@ -38,11 +37,11 @@ function getLocation() {
 		var lat = position.coords.latitude;
 		var lng = position.coords.longitude;
 		var latlng = new google.maps.LatLng(lat, lng);
-		
+
 		mapholder = $("#map");
 		mapholder.height(doc.height());
 		mapholder.width(doc.width());
-		
+
 		var myOptions = {
 			center : latlng,
 			zoom : 17,
@@ -63,16 +62,18 @@ function getLocation() {
 
 		userInfowindow.setContent("You are here!");
 		userInfowindow.open(map, userMarker);
+
+		sendCoords(lat, lng);
 		
 		// send coords on when user is active
 		doc.on("mousemove", function() {
 			sendCoords(lat, lng);
 		});
-		
+
 		window.onresize = function() {
 			mapholder.height(doc.height());
 			mapholder.width(doc.width());
-			//map.panTo(latlng);
+			// map.panTo(latlng);
 		};
 	}
 
@@ -94,13 +95,13 @@ function getLocation() {
 				icon : 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
 			});
 
-			infowindow.setContent(data.id);
+			infowindow.setContent(data.userName);
 			infowindow.open(map, marker);
 
 			markers[data.id] = marker;
 
 			google.maps.event.addListener(marker, 'click', function() {
-				getUser(data.id);
+				getUserResult(data.id);
 			});
 		}
 	}
@@ -110,6 +111,7 @@ function getLocation() {
 
 		sentData = {
 			id : userId,
+			userName : userName,
 			active : active,
 			coords : [ {
 				lat : lat,
@@ -144,7 +146,25 @@ function getLocation() {
 	}, 15000);
 }
 
-function getUser(userId) {
+function getUserId() {
+	response = $.ajax({
+		url : "../users/isloggedin/",
+		type : "GET",
+		async : false
+	});
+	return response.responseJSON.userId;
+}
+
+function getUserName(userId) {
+	response = $.ajax({
+		url : "../users/" + userId,
+		type : "GET",
+		async : false
+	});
+	return response.responseJSON.data[0].username;
+}
+
+function getUserResult(userId) {
 	var resDeferred = getSearchById(userId);
 	resDeferred.done(function(response) {
 		if (response.status)
