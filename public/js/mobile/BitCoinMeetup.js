@@ -9,7 +9,6 @@ var socket = io.connect("/");
 socket.on("load:notif", function(data) {
 	if (getUserId() == data) {
 		window.location.href = "./notification";
-		//window.location.replace("./notifications/");
 	}
 });
 
