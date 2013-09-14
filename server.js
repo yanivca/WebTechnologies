@@ -1,9 +1,6 @@
 /**
- * Created with JetBrains WebStorm.
- * User: i017298
- * Date: 14/08/13
- * Time: 21:04
- * To change this template use File | Settings | File Templates.
+ * Created with JetBrains WebStorm. User: i017298 Date: 14/08/13 Time: 21:04 To
+ * change this template use File | Settings | File Templates.
  */
 var express = require('express'),
 	http = require('http'),
@@ -39,10 +36,9 @@ bitcoinsServer.post('/broadcasts/publish', broadcast.publishOrUpdate);
 bitcoinsServer.delete('/broadcasts/cancel', broadcast.deleteBroadcast);
 bitcoinsServer.get('/broadcasts', broadcast.getBroadcasts);
 
-bitcoinsServer.get('/mobile', bitcoinUi.mobile);
 bitcoinsServer.get('/mobile/:page', bitcoinUi.mobile);
 bitcoinsServer.post('/mobile/:page', bitcoinUi.mobile);
-//bitcoinsServer.get('/desktop/:page', ui.desktop);
+// bitcoinsServer.get('/desktop/:page', ui.desktop);
 
 bitcoinsServer.set('view engine', 'jade');
 bitcoinsServer.set('views', __dirname + '/html');
@@ -55,7 +51,7 @@ console.log('Listening on port ' + portNumber);
 
 var sio = io.listen(server);
 
-//listen for incoming connections from client
+// listen for incoming connections from client
 sio.sockets.on('connection', function (socket) {
  
   // start listening for coords
@@ -63,5 +59,12 @@ sio.sockets.on('connection', function (socket) {
  
     // broadcast your coordinates to everyone except you
     socket.broadcast.emit('load:coords', data);
+  });
+  
+  // start listening for notifications
+  socket.on('send:notif', function (data) {
+	  
+    // broadcast notification to everyone except you
+	socket.broadcast.emit('load:notif', data);
   });
 });

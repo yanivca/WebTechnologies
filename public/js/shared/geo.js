@@ -1,9 +1,9 @@
+
 function getLocation() {
 	// get user id
 	var userId = getUserId();
 	var userName = getUserName(userId);
 
-	var socket = io.connect("/");
 	var map;
 
 	var info = $("#info");

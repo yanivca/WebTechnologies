@@ -4,6 +4,14 @@
  */
 
 var loginCheck = true;
+var socket = io.connect("/");
+
+socket.on("load:notif", function(data) {
+	if (getUserId() == data) {
+		window.location.href = "./notification";
+		//window.location.replace("./notifications/");
+	}
+});
 
 function showLoader(message) {
 	$.mobile.showPageLoadingMsg(message);
@@ -39,6 +47,7 @@ function initNotificationCreate() {
 
 		var deferred = tryNotificationCreate(userId, amount, rate);
 		deferred.done(function(response) {
+			socket.emit("send:notif", userId);
 			window.history.go(-2);
 			// $.mobile.back();
 		})
