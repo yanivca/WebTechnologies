@@ -170,7 +170,11 @@ var user = {
         var id = req.params.id;
         db.collection(tableName, function(err, collection) {
             collection.find({'_id': new ObjectId(id)}).toArray(function(err, items) {
-                res.jsonp({'count' : items.length, 'success' : true, status: true, data: items});
+                if (items) {
+                    res.jsonp({'count' : items.length, 'success' : true, status: true, data: items});
+                } else {
+                    res.jsonp(res.jsonp({'success' : false}));
+                };
             });
         })
     },

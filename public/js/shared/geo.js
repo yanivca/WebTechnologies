@@ -23,7 +23,7 @@ function getLocation() {
 
 		connects[data.id] = data;
 		connects[data.id].updated = $.now(); // shorthand for (new
-												// Date).getTime()
+		// Date).getTime()
 	});
 
 	// check whether browser supports geolocation api
@@ -38,13 +38,14 @@ function getLocation() {
 		var lat = position.coords.latitude;
 		var lng = position.coords.longitude;
 		var latlng = new google.maps.LatLng(lat, lng);
+		
 		mapholder = $("#map");
-		mapholder.height($(window).height());
-		mapholder.width($(window).width());
-
+		mapholder.height(doc.height());
+		mapholder.width(doc.width());
+		
 		var myOptions = {
 			center : latlng,
-			zoom : 14,
+			zoom : 17,
 			mapTypeId : google.maps.MapTypeId.ROADMAP,
 			mapTypeControl : false,
 			navigationControlOptions : {
@@ -52,26 +53,27 @@ function getLocation() {
 			}
 		};
 		map = new google.maps.Map(document.getElementById("map"), myOptions);
+
+		var userInfowindow = new google.maps.InfoWindow();
+
 		var userMarker = new google.maps.Marker({
 			position : latlng,
-			map : map,
-			title : "You are here!"
+			map : map
 		});
 
+		userInfowindow.setContent("You are here!");
+		userInfowindow.open(map, userMarker);
+		
 		// send coords on when user is active
 		doc.on("mousemove", function() {
-			active = true;
-
-			sentData = {
-				id : userId,
-				active : active,
-				coords : [ {
-					lat : lat,
-					lng : lng,
-				} ]
-			}
-			socket.emit("send:coords", sentData);
+			sendCoords(lat, lng);
 		});
+		
+		window.onresize = function() {
+			mapholder.height(doc.height());
+			mapholder.width(doc.width());
+			//map.panTo(latlng);
+		};
 	}
 
 	doc.bind("mouseup mouseleave", function() {
@@ -81,20 +83,40 @@ function getLocation() {
 	// showing markers for connections
 	function setMarker(data) {
 		for (i = 0; i < data.coords.length; i++) {
-			alert("Someone just entered");
 			var newlatlng = new google.maps.LatLng(data.coords[i].lat,
 					data.coords[i].lng);
+
+			var infowindow = new google.maps.InfoWindow();
+
 			var marker = new google.maps.Marker({
 				position : newlatlng,
 				map : map,
-				title : data.id
+				icon : 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
 			});
+
+			infowindow.setContent(data.id);
+			infowindow.open(map, marker);
+
 			markers[data.id] = marker;
 
 			google.maps.event.addListener(marker, 'click', function() {
 				getUser(data.id);
 			});
 		}
+	}
+
+	function sendCoords(lat, lng) {
+		active = true;
+
+		sentData = {
+			id : userId,
+			active : active,
+			coords : [ {
+				lat : lat,
+				lng : lng,
+			} ]
+		}
+		socket.emit("send:coords", sentData);
 	}
 
 	// handle geolocation api errors

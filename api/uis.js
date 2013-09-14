@@ -111,7 +111,11 @@ var bitcoinUi = {
 
     mobile: function mobile(req, res) {
         var page = req.params.page;
-
+        
+        if (!page) {
+        	page = "index";
+        }
+        
         switch (page) {
             case "index":
                 bitcoinUi.index("mobile", req, res);
@@ -131,9 +135,9 @@ var bitcoinUi = {
                     bitcoinUi.broadcast("mobile", req, res);
                 }
                 break;
-        }
+		        }
 
-    }
+	}
 
 }
 
