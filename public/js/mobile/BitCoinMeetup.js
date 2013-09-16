@@ -6,11 +6,49 @@
 var loginCheck = true;
 var socket = io.connect("/");
 
-socket.on("load:notif", function(data) {
-	if (getUserId() == data) {
-		window.location.href = "./notification";
+socket.on("load:notif", function(senderString) {
+    var sender = JSON.parse(senderString);
+	if (sender && getUserId() == sender.from) {
+        showNotificationPopup(sender);
 	}
 });
+
+function showNotificationPopup(data) {
+    var dialogElement = getDialog();
+    var ignoreButton = $('<a data-role="button" data-rel="back" data-theme="b">Ignore</a>');
+    var redirectButton = $('<a href="notificationDetails" data-role="button" data-theme="b">Watch</a>')
+    redirectButton.attr("data-id", data.id);
+    var template = [
+        data.firstName, " ", data.lastName, " would like to ", data.type, " ", data.amount, " Bitcoins"
+    ].join("");
+    dialogElement.find("#dialog-tooltip").text("New Request");
+    dialogElement.find("#dialog-content").text(template);
+    dialogElement.find("#dialog-content").append(ignoreButton).append(redirectButton);
+    dialogElement.one("click", "a[data-role=button]", function() {
+        closeDialog();
+    })
+    openDialog();
+}
+
+function getDialog() {
+    return $("#popupDialog");
+}
+function openDialog() {
+    $("#dialogButton").click();
+    var dialog = getDialog();
+    dialog.trigger('create');
+    dialog.attr("style","");
+}
+
+function closeDialog() {
+    var dialog = getDialog();
+    dialog.dialog('close');
+    dialog.on("pagehide", function() {
+        dialog.find("#dialog-tooltip").html("");
+        dialog.find("#dialog-content").text("");
+        //dialog.css("display","none");
+    });
+}
 
 function showLoader(message) {
 	$.mobile.showPageLoadingMsg(message);
@@ -47,7 +85,16 @@ function initNotificationCreate() {
 
 		var deferred = tryNotificationCreate(userId, amount, rate, type);
 		deferred.done(function(response) {
-			socket.emit("send:notif", userId);
+            var notificationObject = {
+                from: userId,   // the current user is the sender to the user that receives the notification
+                firstName: myFirstName,
+                lastName: myLastName,
+                amount: amount,
+                rate: rate,
+                type: type,
+                id: response.id
+            }
+			socket.emit("send:notif", JSON.stringify(notificationObject));
 			window.history.go(-2);
 			// $.mobile.back();
 		})

@@ -73,7 +73,7 @@ var user = {
                 collection.findOne({'username': username, 'password': password}, function(err, item) {
                     if (item) {
                         req.session.loggedInUser = item._id;
-                        res.jsonp({'msg' : 'login success!', 'success' : true});
+                        res.jsonp({'msg' : 'login success!', 'success' : true, 'data': { 'firstName': item.firstName, 'lastName': item.lastName, 'userId': item._id } });
                     }
                     else {
                         res.jsonp({'msg' : 'login failed!', 'success' : false});

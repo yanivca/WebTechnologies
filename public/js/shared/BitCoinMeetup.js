@@ -1,10 +1,16 @@
-/**
- * Created with JetBrains PhpStorm.
- * User: elad
- * Date: 9/6/13
- * Time: 6:51 PM
- * To change this template use File | Settings | File Templates.
- */
+Object.defineProperty(window, "myLastName", {
+    get: function() {return localStorage.getItem("myLastName") || "" },
+    set: function(name) { localStorage.setItem("myLastName", name) }
+});
+Object.defineProperty(window, "myFirstName", {
+    get: function() {return localStorage.getItem("myFirstName") || "" },
+    set: function(name) { localStorage.setItem("myFirstName", name) }
+});
+Object.defineProperty(window, "myUserId", {
+    get: function() {return localStorage.getItem("myUserId") || "" },
+    set: function(id) { localStorage.setItem("myUserId", name) }
+});
+
 function sendRequest(url, params, method) {
     showLoader("Please wait");
     method = method || "GET";
@@ -39,6 +45,10 @@ function tryLogin(username, password) {
             if (response && response.success) {
                 $("#loginUsername").val("");
                 $("#loginPassword").val("");
+
+                myFirstName = response.data.firstName;
+                myLastName = response.data.lastName;
+                myUserId = response.data.userId;
                 retDeferred.resolve(response);
             } else {
                 var message = "Login error";
@@ -51,7 +61,7 @@ function tryLogin(username, password) {
         });
     }
 
-    return retDeferred;
+    return retDeferred.promise();
 }
 
 function trySignUp() {

@@ -22,8 +22,19 @@ html(lang="en")
             div(data-role="page", id=pageName)
                 block header
                 block content
+
         -else
             #page(data-role="page")
                 block header
                 block content
+
+        a(id="dialogButton", style="display:none", href="#popupDialog", data-rel="dialog", data-position-to="window", data-role="button", data-inline="true", data-transition="pop")"Open"
+
+        #popupDialog(data-role="popup", data-dismissible="false", class="ui-corner-all", style="display:none")
+            #header(data-role="header", class="ui-corner-top")
+                h1(id="dialog-tooltip") Header
+            #content(data-role="content", class="ui-corner-bottom ui-content")
+                h3(id="dialog-title", class="ui-title") Hello
+                p(id="dialog-content") Content
+
         block additionalPages

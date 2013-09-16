@@ -53,7 +53,7 @@ var sio = io.listen(server);
 
 // listen for incoming connections from client
 sio.sockets.on('connection', function (socket) {
- 
+
   // start listening for coords
   socket.on('send:coords', function (data) {
  
