@@ -223,4 +223,15 @@ $(document).ready(function() {
 		});
 	}
 
-})
+});
+
+$(document).on("pageshow", function() {
+	var loggedIn = isLoggedIn();
+	loggedIn.done(function(response) {
+		if (navigator.geolocation) {
+			setInterval(function() {
+				navigator.geolocation.getCurrentPosition(sendCoords);
+			}, 5000);
+		}
+	});
+});
