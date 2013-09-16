@@ -30,7 +30,8 @@ var notification = {
             notification.bitcoinsAmount &&
             notification.bitcoinsAmount > 0 &&
             notification.rate &&
-            notification.rate > 0;
+            notification.rate > 0 &&
+            notification.type;
 
         if (!validInput)  {
             res.jsonp({'msg' : 'to, bitcoins Amount and rate are required. Numbers should be greater then 0', 'success' : false});

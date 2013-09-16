@@ -2,16 +2,18 @@ extends layout
 
 block header
     -if (submenu)
-        #navPanel(data-role="panel", data-display="overlay", data-theme="a")
+        #navPanel(data-role="panel", data-position="right", data-display="overlay", data-theme="a")
             each item in submenu
                 if (selected == item.target)
                     a(href= item.target, data-role="button", class="ui-btn-active", rel="external")= item.text
                 else
                     a(href= item.target, data-role="button", rel="external")= item.text
+            a#logout(data-icon="back", data-role="button", data-inline="true") Logout
     #header(data-role="header")
         h1 BitCoinMeetup
-        div(data-role="controlgroup", data-type="horizontal", class="ui-btn-right")
-            a#logout(data-icon="back", data-role="button", data-inline="true") Logout
-            a(href="main", data-icon="home", data-role="button", data-inline="true") Home
-        -if(submenu)
-            a(href="#navPanel", class="ui-btn-left") Options
+        //-div(data-role="controlgroup", data-type="horizontal")
+        a(href="main", data-icon="home", data-role="button", data-inline="true", class="ui-btn-left") Home
+        if (submenu)
+            a(href="#navPanel", data-icon="bars", data-iconpos="notext", class="ui-btn-right")
+        else
+            a#logout(data-icon="back", data-role="button", data-inline="true", class="ui-btn-right") Logout

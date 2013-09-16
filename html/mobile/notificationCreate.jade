@@ -8,6 +8,17 @@ block content
         input#notificationCreateAmount(type="number")
         label(for="notificationCreateRate") Rate
         input#notificationCreateRate(type="number")
+        label(for="notificationCreateType") Type
+        select#notificationCreateType(data-role="slider")
+            if (data && data.type == "buy")
+                option(value="buy", selected="selected") Buy
+            else
+                option(value="buy") Buy
+            if (data && data.type == "sell")
+                option(value="sell", selected="selected") Sell
+            else
+                option(value="sell") Sell
+        
         #notificationCreateError
         button#notificationCreateSubmit Create
         a#notificationCreateCancel(data-rel="back", data-role="button") Cancel

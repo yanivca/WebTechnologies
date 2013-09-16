@@ -43,8 +43,9 @@ function initNotificationCreate() {
 		var userId = $("#notificationCreateId").val();
 		var amount = $("#notificationCreateAmount").val();
 		var rate = $("#notificationCreateRate").val();
+		var type = $("#notificationCreateType").val();
 
-		var deferred = tryNotificationCreate(userId, amount, rate);
+		var deferred = tryNotificationCreate(userId, amount, rate, type);
 		deferred.done(function(response) {
 			socket.emit("send:notif", userId);
 			window.history.go(-2);

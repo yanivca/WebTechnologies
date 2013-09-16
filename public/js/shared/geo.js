@@ -1,3 +1,6 @@
+$(document).on("pageshow", "#userSearch", function() {
+	getLocation();
+});
 
 function getLocation() {
 	// get user id
@@ -7,7 +10,7 @@ function getLocation() {
 	var map;
 
 	var info = $("#info");
-	var doc = $(document);
+	var doc = $(".ui-page-active");
 
 	var sentData = {};
 	var connects = {};
@@ -37,12 +40,19 @@ function getLocation() {
 		var lat = position.coords.latitude;
 		var lng = position.coords.longitude;
 		var latlng = new google.maps.LatLng(lat, lng);
+		var height;
 
 		mapholder = $("#map");
-		mapholder.height(doc.height());
-		mapholder.width(doc.width());
-
+		// mapholder.height(doc.height());
+		// mapholder.width(doc.width());
+		height = doc.innerHeight() - mapholder.position().top - 15;
+		mapholder.height(height);
 		var myOptions = {
+			size : {
+
+				width : mapholder.width(),
+				height : height
+			},
 			center : latlng,
 			zoom : 17,
 			mapTypeId : google.maps.MapTypeId.ROADMAP,
@@ -52,7 +62,8 @@ function getLocation() {
 			}
 		};
 		map = new google.maps.Map(document.getElementById("map"), myOptions);
-
+		google.maps.event.trigger(map, "resize");
+		
 		var userInfowindow = new google.maps.InfoWindow();
 
 		var userMarker = new google.maps.Marker({
@@ -64,15 +75,15 @@ function getLocation() {
 		userInfowindow.open(map, userMarker);
 
 		sendCoords(lat, lng);
-		
+
 		// send coords on when user is active
 		doc.on("mousemove", function() {
 			sendCoords(lat, lng);
 		});
 
 		window.onresize = function() {
-			mapholder.height(doc.height());
-			mapholder.width(doc.width());
+			var height = doc.innerHeight() - mapholder.position().top - 15;
+			mapholder.height(height);
 			// map.panTo(latlng);
 		};
 	}

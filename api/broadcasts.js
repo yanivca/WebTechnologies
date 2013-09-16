@@ -105,7 +105,7 @@ var broadcast = {
         }
 
         db.collection(tableName, function(err, collection) {
-            collection.find({"publisher": new ObjectId(userId) }).toArray(function(err, items) {
+            collection.find({"publisher": {$ne: new ObjectId(userId)} }).toArray(function(err, items) {
                 if (err) {
                     console.log("error", err)
                 }

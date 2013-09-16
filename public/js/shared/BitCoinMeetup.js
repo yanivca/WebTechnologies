@@ -145,7 +145,7 @@ function logout() {
     });
 }
 
-function tryNotificationCreate(userid, amount, ratio) {
+function tryNotificationCreate(userid, amount, ratio, type) {
 
     var retDeferred = new $.Deferred();
     if (!userid) {
@@ -162,9 +162,14 @@ function tryNotificationCreate(userid, amount, ratio) {
         $("#notificationCreateError").text("Missing ratio");
         retDeferred.reject();
     }
+    
+    if (!type) {
+        $("#notificationCreateError").text("Must specify type");
+        retDeferred.reject();
+    }
 
     if (retDeferred.state() != "rejected") {
-        var params = "to=" + userid + "&bitcoinsAmount=" + amount + "&rate=" + ratio;
+        var params = "to=" + userid + "&bitcoinsAmount=" + amount + "&rate=" + ratio + "&type=" + type;
 
         var requestDeferred = sendRequest("../notifications/notify",params, "POST");
         requestDeferred.always(function(response) {
@@ -272,7 +277,7 @@ function populateSearchResults(response) {
 }
 
 function populateNotifications(response) {
-    var container = $("#innerResults");
+    var container = $("#innerResults").addClass("texts");
 
     container.text("");
 
@@ -282,7 +287,7 @@ function populateNotifications(response) {
     } else {
         container.append("<div data-role=\"controlgroup\" id=\"innerResults\"></div>");
         for (var i=0; i < response.count; i++) {
-            $("#innerResults").append("<a data-context=\"notificationToRead\" data-role=\"button\" data-id=\"" + response.data[i]._id + "\"> Amount: " + response.data[i].bitcoinsAmount + " Rate: " + response.data[i].rate +"</a>");
+            container.append("<a data-context=\"notificationToRead\" data-role=\"button\" data-id=\"" + response.data[i]._id + "\">" + response.data[i].type + "ing " + response.data[i].bitcoinsAmount + " Bitcoins</a>");
         }
     }
 
@@ -299,7 +304,7 @@ function populateNotifications(response) {
 }
 
 function populateBroadcasts(response) {
-    var container = $("#innerResults");
+    var container = $("#innerResults").addClass("texts");
     var html;
 
     container.text("");
@@ -309,7 +314,7 @@ function populateBroadcasts(response) {
         container.trigger("create");
     } else {
         for (var i=0; i < response.count; i++) {
-            html = $("<a data-role=\"button\" id=\"" + response.data[i]._id + "\">" + response.data[i].firstName + " " + response.data[i].lastName + "</a>");
+            html = $("<a data-role=\"button\" id=\"" + response.data[i]._id + "\">" + response.data[i].type + "ing " + response.data[i].bitcoinsAmount + " Bitcoins</a>");
             container.append(html);
         }
     }
