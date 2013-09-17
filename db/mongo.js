@@ -193,6 +193,7 @@ var populateNofiticationDB = function() {
             "to": new ObjectId("520d15c35156cc4912d10f07"),
             "bitcoinsAmount": 4,
             "rate": 120,
+            "type": "sell",
             "unread": true,
             "isApproved": false
         }
