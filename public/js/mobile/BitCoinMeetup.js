@@ -20,7 +20,7 @@ function openRateUserDialog(data) {
     var unlikeButton = $('<a class="rate-btn unlike" data-role="none">-</a>');
     var likeButton = $('<a class="rate-btn like" data-role="none">+</a>')
     var template = [
-        "Please rate ", data.firstName, " ", data.lastName
+        "Please rate ", data.userName
     ].join("");
     dialogElement.find("#dialog-tooltip").text("Rate user");
     dialogElement.find("#dialog-title").text(template);
@@ -236,7 +236,24 @@ $(document).on("pageinit", "#broadcastPublish", function() {
 });
 
 $(document).on("pageinit", "#notificationCreate", function() {
-	initNotificationCreate();
+    initNotificationCreate();
+});
+
+$(document).on("pageinit", "#notificationDetails", function() {
+    var notifId = $("#notificationId").val();
+
+    $(document).one("click", ".notif-accept-btn", function() {
+        var userName = $("#notificationFrom").text();
+        var userId = $("#notificationFromId").val();
+        var data = {userId: userId, userName: userName};
+        openRateUserDialog(data);
+        sendRequest("../notifications/approve", "id=" + notifId, "POST");
+    });
+
+    $(document).one("click", ".notif-reject-btn", function() {
+        sendRequest("../notifications/disapprove", "id=" + notifId, "POST");
+        $.mobile.navigate("main");
+    });
 });
 
 $(document).on("pageinit", function() {

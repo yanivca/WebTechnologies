@@ -309,9 +309,9 @@ function populateNotifications(response) {
         var amount = this.getAttribute("data-amount");
         var type = this.getAttribute("data-type");
         var rate = this.getAttribute("data-rate");
-        var user = getUser();
+        var user = getUser(this.getAttribute("data-from"));
 
-        var params = {id: id, amount: amount, type: type, rate: rate, userId: user._id. userName: user.firstName + " " + user.lastName};
+        var params = {id: id, amount: amount, type: type, rate: rate, userId: user._id, userName: user.firstName + " " + user.lastName};
         post_to_url("notificationDetails", params, "POST");
     })
 

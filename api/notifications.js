@@ -82,13 +82,13 @@ var notification = {
     },
 
     approveNotification: function approveNotification(req, res) {
-        req.isApproved = true;
-        updateNotificationState(req, res);
+        req.body.isApproved = true;
+        notification.updateNotificationState(req, res);
     },
 
     disapproveNotification: function approveNotification(req, res) {
-        req.isApproved = false;
-        updateNotificationState(req, res);
+        req.body.isApproved = false;
+        notification.updateNotificationState(req, res);
     },
 
     updateNotificationState: function updateNotificationState(req, res) {
@@ -103,16 +103,17 @@ var notification = {
         }
 
         var notification = req.body;
+        console.log("notification", notification);
         var validInput =
-            notification._id &&
+            notification.id &&
             notification.hasOwnProperty("isApproved");
 
         if (!validInput)  {
-            res.jsonp({'msg' : '_id, and isApproved are required', 'success' : false});
+            res.jsonp({'msg' : 'id and isApproved are required', 'success' : false});
             return;
         }
         db.collection(tableName, function(err, collection) {
-            collection.update({_id : ObjectId(notification._id)}, {$set: {isApproved : notification.isApproved}}, function(err, item) {
+            collection.update({_id : ObjectId(notification.id)}, {$set: {isApproved : notification.isApproved}}, function(err, item) {
                 if ( err ) {
                     res.jsonp({'msg' : 'update failed', 'success' : false});
                 }
