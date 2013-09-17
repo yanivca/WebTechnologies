@@ -297,7 +297,7 @@ function populateNotifications(response) {
     } else {
         container.append("<div data-role=\"controlgroup\" id=\"innerResults\"></div>");
         for (var i=0; i < response.count; i++) {
-            container.append("<a data-context=\"notificationToRead\" data-role=\"button\" data-id=\"" + response.data[i]._id + "\">" + response.data[i].type + "ing " + response.data[i].bitcoinsAmount + " Bitcoins</a>");
+            container.append("<a data-context=\"notificationToRead\" data-role=\"button\" data-id=\"" + response.data[i]._id + "\" data-amount=\"" + response.data[i].bitcoinsAmount +"\" data-type=\"" + response.data[i].type +"\" data-from=\"" + response.data[i].from +"\">" + response.data[i].type + "ing " + response.data[i].bitcoinsAmount + " Bitcoins</a>");
         }
     }
 
@@ -305,9 +305,11 @@ function populateNotifications(response) {
     container.trigger("create");
 
     $("a[data-context='notificationToRead']").on("click", function() {
-        var id = this.id;
+        var id = this.getAttribute("data-id");
+        var amount = this.getAttribute("data-amount");
+        var type = this.getAttribute("data-type");
 
-        var params = {id: id};
+        var params = {id: id, amount: amount, type: type};
         post_to_url("notificationDetails", params, "POST");
     })
 
@@ -324,7 +326,7 @@ function populateBroadcasts(response) {
         container.trigger("create");
     } else {
         for (var i=0; i < response.count; i++) {
-            html = $("<a data-role=\"button\" id=\"" + response.data[i]._id + "\">" + response.data[i].type + "ing " + response.data[i].bitcoinsAmount + " Bitcoins</a>");
+            html = "<a data-role=\"button\" id=\"" + response.data[i]._id + "\" data-item=\"notification\">" + response.data[i].type + "ing " + response.data[i].bitcoinsAmount + " Bitcoins</a>";
             container.append(html);
         }
     }
@@ -332,7 +334,6 @@ function populateBroadcasts(response) {
     html = $("<a data-role=\"button\" data-rel=\"back\" data-icon=\"back\" rel=\"external\">Back</a>");
     container.append(html);
     container.trigger("create");
-
 }
 
 function tryPublishBroadcast(amount, ratio, type) {

@@ -2,5 +2,14 @@ extends menuLayout
 
 block content
     #content(data-role="content")
-        h3 Notification details will be available in the next version
-        button#searchTopNearestSubmit(data-rel="back") Back
+        input#notificationId(type="hidden", value=data.id)
+        h3 Notification Details
+        label(for="notificationFrom") From user
+        input#notificationFrom(type="text", disabled="disabled")
+        label(for="notificationAmount") Amount of BitCoins
+        input#notificationAmount(type="text", disabled="disabled", value=data.amount)
+        label(for="notificationType") Type
+        input#notificationType(type="text", disabled="disabled", value=data.type)
+        button#notificationAccept(data-rel="back") Accept
+        button#notificationReject(data-rel="back") Reject
+    button#searchTopNearestSubmit(data-rel="back") Back
