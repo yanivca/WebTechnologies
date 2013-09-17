@@ -15,7 +15,7 @@ var bitcoinUi = {
 	userSearch : function userSearch(client, req, res) {
 		var submenu = {
 			submenu : [ {
-				target : "userSearchTopNearest",
+				target : "userSearch",
 				text : "Find closest"
 			}, {
 				target : "userSearchMinRating",
@@ -33,8 +33,8 @@ var bitcoinUi = {
 
 		if (req.params.page) {
 			switch (req.params.page) {
-			case "userSearchTopNearest":
-				res.render(client + '/userSearchTopNearest', submenu);
+			case "userSearch":
+				res.render(client + '/userSearch', submenu);
 				break;
 			case "userSearchMinRating":
 				res.render(client + '/userSearchMinRating', submenu);
@@ -47,11 +47,11 @@ var bitcoinUi = {
 				res.render(client + '/userSearchAll', submenu);
 				break;
 			default:
-				res.render(client + '/userSearchTopNearest', submenu);
+				res.render(client + '/userSearch', submenu);
 				break;
 			}
 		} else {
-			res.render(client + '/userSearchTopNearest', submenu);
+			res.render(client + '/userSearch', submenu);
 		}
 	},
 
