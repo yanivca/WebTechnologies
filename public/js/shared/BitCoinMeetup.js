@@ -8,7 +8,7 @@ Object.defineProperty(window, "myFirstName", {
 });
 Object.defineProperty(window, "myUserId", {
     get: function() {return localStorage.getItem("myUserId") || "" },
-    set: function(id) { localStorage.setItem("myUserId", name) }
+    set: function(id) { localStorage.setItem("myUserId", id) }
 });
 
 function sendRequest(url, params, method) {

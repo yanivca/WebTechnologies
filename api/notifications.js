@@ -41,7 +41,7 @@ var notification = {
         notification.from = new ObjectId(userId);
         notification.to = new ObjectId(notification.to); // "to" is string, so we need to parse it
         notification.unread = true;
-        notification.isApproved = false;
+        notification.isApproved = null;
 
         db.collection(tableName, function(err, collection) {
             collection.insert(notification, function(err, item) {
@@ -93,9 +93,9 @@ var notification = {
         }
 
         db.collection(tableName, function(err, collection) {
-            collection.find({"to": new ObjectId(userId) }).toArray(function(err, items) {
+            collection.find({"to": new ObjectId(userId), "isApproved": null }).toArray(function(err, items) {
                 if (err) {
-                    console.log("error", err)
+                    console.log("error", err);
                 }
                 else {
                     res.jsonp({'count' : items.length, 'success' : true, status: true, data: items});

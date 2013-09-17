@@ -96,6 +96,7 @@ function initNotificationCreate() {
             }
 			socket.emit("send:notif", JSON.stringify(notificationObject));
 			window.history.go(-2);
+//            $.mobile.navigate("userSearch");
 			// $.mobile.back();
 		})
 	});
@@ -210,8 +211,8 @@ $(document).on("pageinit", "#notificationCreate", function() {
 	initNotificationCreate();
 });
 
-$(document).ready(function() {
-	$("#logout").click(function() {
+$(document).on("pageinit", function() {
+	$("#logout").one("click", function() {
 		logout();
 	});
 
