@@ -73,9 +73,49 @@ var notification = {
         }
         db.collection(tableName, function(err, collection) {
             collection.update({_id : ObjectId(notification._id)}, {$set: {rate : notification.rate}}, function(err, item) {
-				if ( err || !updated ) {
+				if ( err ) {
 					 res.jsonp({'msg' : 'update failed', 'success' : false});
 				}
+                res.jsonp({'success' : true});
+            });
+        })
+    },
+
+    approveNotification: function approveNotification(req, res) {
+        req.isApproved = true;
+        updateNotificationState(req, res);
+    },
+
+    disapproveNotification: function approveNotification(req, res) {
+        req.isApproved = false;
+        updateNotificationState(req, res);
+    },
+
+    updateNotificationState: function updateNotificationState(req, res) {
+        var userId = null;
+        if (user.isLoggedIn(req)) {
+            userId = user.getLoggedInUserId(req);
+        }
+
+        if (!userId) {
+            res.jsonp({'msg' : 'must be logged in', 'success' : true});
+            return;
+        }
+
+        var notification = req.body;
+        var validInput =
+            notification._id &&
+            notification.hasOwnProperty("isApproved");
+
+        if (!validInput)  {
+            res.jsonp({'msg' : '_id, and isApproved are required', 'success' : false});
+            return;
+        }
+        db.collection(tableName, function(err, collection) {
+            collection.update({_id : ObjectId(notification._id)}, {$set: {isApproved : notification.isApproved}}, function(err, item) {
+                if ( err ) {
+                    res.jsonp({'msg' : 'update failed', 'success' : false});
+                }
                 res.jsonp({'success' : true});
             });
         })

@@ -30,6 +30,8 @@ bitcoinsServer.get('/users', user.findAll);
 
 bitcoinsServer.post('/notifications/notify', notification.notifyUser);
 bitcoinsServer.post('/notifications/update', notification.updateNotificationRate);
+bitcoinsServer.post('/notifications/approve', notification.approveNotification);
+bitcoinsServer.post('/notifications/disapprove', notification.disapproveNotification);
 bitcoinsServer.get('/notifications', notification.getNotifications);
 
 bitcoinsServer.post('/broadcasts/publish', broadcast.publishOrUpdate);
