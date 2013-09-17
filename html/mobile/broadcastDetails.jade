@@ -1,0 +1,14 @@
+extends menuLayout
+
+block content
+    #content(data-role="content")
+        input#notificationId(type="hidden", value=data.id)
+        h3 Broadcast Details
+        label(for="broadcastFrom") From user
+        input#broadcastFrom(type="text", disabled="disabled")
+        label(for="broadcastAmount") Amount of BitCoins
+        input#broadcastAmount(type="text", disabled="disabled", value=data.amount)
+        label(for="broadcastType") Type
+        input#broadcastType(type="text", disabled="disabled", value=data.type)
+        button#broadcastAccept(data-rel="back") Accept
+        button#searchTopNearestSubmit(data-rel="back") Back

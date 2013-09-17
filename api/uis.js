@@ -93,6 +93,7 @@ var bitcoinUi = {
 				text : "publish broadcast"
 			} ],
 			clientType : client,
+            data : req.body,
 			pageName : req.params.page
 		};
 
@@ -104,6 +105,9 @@ var bitcoinUi = {
 			case "broadcastPublish":
 				res.render(client + '/broadcastPublish', submenu);
 				break;
+            case "broadcastDetails":
+                res.render(client + '/broadcastDetails', submenu);
+                break;
 			default:
 				res.render(client + '/broadcastGetAll', submenu);
 				break;
