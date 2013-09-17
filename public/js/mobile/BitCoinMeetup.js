@@ -13,6 +13,33 @@ socket.on("load:notif", function(senderString) {
 	}
 });
 
+
+
+function openRateUserDialog(data) {
+    var dialogElement = getDialog();
+    var unlikeButton = $('<a class="rate-btn unlike" data-role="none">-</a>');
+    var likeButton = $('<a class="rate-btn like" data-role="none">+</a>')
+    var template = [
+        "Please rate ", data.firstName, " ", data.lastName
+    ].join("");
+    dialogElement.find("#dialog-tooltip").text("Rate user");
+    dialogElement.find("#dialog-title").text(template);
+    //dialogElement.find("#dialog-content").text(template);
+    dialogElement.find("#dialog-content").append(likeButton).append(unlikeButton);
+    dialogElement.one("click", ".rate-btn", function(event) {
+        var params = "userId=" + data.userId + "&isPositiveFeedback=";
+        var target = event.target;
+        params += $(target).hasClass("like");
+        var promise = sendRequest("../users/rateuser", params, "POST");
+        promise.always(function() {
+            closeDialog();
+            $.mobile.navigate("main");
+        });
+    });
+
+    openDialog();
+}
+
 function showNotificationPopup(data) {
     var dialogElement = getDialog();
     var ignoreButton = $('<a data-role="button" data-rel="back" data-theme="b">Ignore</a>');
@@ -45,7 +72,8 @@ function closeDialog() {
     dialog.dialog('close');
     dialog.on("pagehide", function() {
         dialog.find("#dialog-tooltip").html("");
-        dialog.find("#dialog-content").text("");
+        dialog.find("#dialog-title").html("");
+        dialog.find("#dialog-content").html("");
         //dialog.css("display","none");
     });
 }

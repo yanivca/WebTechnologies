@@ -206,7 +206,9 @@ var user = {
 		}
 
         db.collection(tableName, function(err, collection) {
-        	if (rateReq.isPositiveFeedback) { 
+            var isPositiveFeedback = Boolean(rateReq.isPositiveFeedback);
+        	if (isPositiveFeedback) {
+                console.log("GOOD!");
 	            collection.update({_id : ObjectId(rateReq.userId)}, {$inc: {positiveFeedback : 1}}, function(err, item) {
 	            	if ( err ) {
 	    				 res.jsonp({'msg' : 'rate failed', 'success' : false});
@@ -215,6 +217,7 @@ var user = {
 	            });
         	}
         	else {
+                console.log("BAD!");
 	            collection.update({_id : ObjectId(rateReq.userId)}, {$inc: {negativeFeedback : 1}}, function(err, item) {
 	            	if ( err ) {	
 	    				 res.jsonp({'msg' : 'rate failed', 'success' : false});

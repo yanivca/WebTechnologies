@@ -128,7 +128,7 @@ function trySignUp() {
         });
     }
 
-    return retDeferred;
+    return retDeferred.promise();
 }
 
 function isLoggedIn() {
@@ -145,7 +145,7 @@ function isLoggedIn() {
         }
     });
 
-    return retDeferred;
+    return retDeferred.promise();
 }
 
 function logout() {
@@ -191,7 +191,7 @@ function tryNotificationCreate(userid, amount, ratio, type) {
         });
     }
 
-    return retDeferred;
+    return retDeferred.promise();
 }
 
 function getSearchByRange(numItems, maxDistance) {
@@ -202,7 +202,7 @@ function getSearchByRange(numItems, maxDistance) {
     }).done(function(response) {
             populateSearchResults(response);
         });
-    return requestDeferred;
+    return requestDeferred.promise();
 }
 
 function getSearchMinRating(minRating) {
@@ -213,7 +213,7 @@ function getSearchMinRating(minRating) {
     }).done(function(response) {
             populateSearchResults(response);
         });
-    return requestDeferred;
+    return requestDeferred.promise();
 }
 
 function getSearchById(userId) {
@@ -224,7 +224,7 @@ function getSearchById(userId) {
     }).done(function(response) {
             populateSearchResults(response);
         });
-    return requestDeferred;
+    return requestDeferred.promise();
 }
 
 function getSearchAll() {
@@ -235,7 +235,7 @@ function getSearchAll() {
     }).done(function(response) {
             populateSearchResults(response);
         });
-    return requestDeferred;
+    return requestDeferred.promise();
 }
 
 function getNotifications() {
@@ -245,7 +245,7 @@ function getNotifications() {
     }).done(function(response) {
             populateNotifications(response);
         });
-    return requestDeferred;
+    return requestDeferred.promise();
 }
 
 function getBroadcasts() {
@@ -255,7 +255,7 @@ function getBroadcasts() {
     }).done(function(response) {
             populateBroadcasts(response);
         });
-    return requestDeferred;
+    return requestDeferred.promise();
 }
 
 function populateSearchResults(response) {

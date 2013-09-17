@@ -139,8 +139,8 @@ function getUserResult(userId) {
 }
 
 function sendCoords(position) {
-	var userId = getUserId();
-	var userName = getUserName(userId);
+	var userId = myUserId;
+	var userName = myFirstName + " " + myLastName;
 
 	var lat = position.coords.latitude;
 	var lng = position.coords.longitude;
