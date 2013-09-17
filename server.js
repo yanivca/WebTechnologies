@@ -18,6 +18,7 @@ bitcoinsServer.use(express.session({secret: '1234567890QWERTY'}));
 bitcoinsServer.use(express.bodyParser());
 
 bitcoinsServer.post('/users/subscribe', user.subscribe);
+bitcoinsServer.post('/users/rateuser', user.rateUser);
 bitcoinsServer.get('/users/login/:username/:password', user.login);
 bitcoinsServer.get('/users/logout', user.logout);
 bitcoinsServer.get('/users/isloggedin', user.getUserId);

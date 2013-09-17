@@ -1,9 +1,6 @@
 /**
- * Created with JetBrains WebStorm.
- * User: i017298
- * Date: 14/08/13
- * Time: 21:04
- * To change this template use File | Settings | File Templates.
+ * Created with JetBrains WebStorm. User: i017298 Date: 14/08/13 Time: 21:04 To
+ * change this template use File | Settings | File Templates.
  */
 
 var tableName = 'users',
@@ -192,6 +189,41 @@ var user = {
                     res.jsonp({'count' : items.length, 'success' : true, status: true, data: items});
                 });
             }
+        });
+    },
+    
+	rateUser: function rateUser(req, res) {
+		var rateReq = req.body;
+
+		if (!rateReq.hasOwnProperty("isPositiveFeedback") || !rateReq.userId) {	        
+		    res.jsonp({'msg' : 'isPositiveFeedback and userId are required', 'success' : false});
+            return;
+		}
+
+        if (!req.session.loggedInUser) {
+		    res.jsonp({'msg' : 'user is not logged in', 'success' : false});
+            return;
+		}
+
+        db.collection(tableName, function(err, collection) {
+        	if (rateReq.isPositiveFeedback) { 
+	            collection.update({_id : ObjectId(rateReq.userId)}, {$inc: {positiveFeedback : 1}}, function(err, item) {
+	            	if ( err ) {
+	    				 res.jsonp({'msg' : 'rate failed', 'success' : false});
+	    			}
+	                res.jsonp({'success' : true});
+	            });
+        	}
+        	else {
+	            collection.update({_id : ObjectId(rateReq.userId)}, {$inc: {negativeFeedback : 1}}, function(err, item) {
+	            	if ( err ) {	
+	    				 res.jsonp({'msg' : 'rate failed', 'success' : false});
+	    			}
+	            	else {
+	            		res.jsonp({'success' : true});
+	            	}
+	            });
+        	}
         });
     },
 
