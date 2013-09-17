@@ -1084,3 +1084,22 @@ a.ui-link-inherit {
 .texts a {
 	text-transform:capitalize;
 }
+
+.rate-btn {
+    background-image: url("../../images/icons.jpg");
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display: inline-block;
+    height: 167px;
+    overflow: hidden;
+    text-indent: -9999px;
+    width: 142px;
+}
+
+.rate-btn.like {
+    background-position: -15px -39px;
+    margin: 0 30px;
+}
+.rate-btn.unlike {
+    background-position: -167px -57px;
+}

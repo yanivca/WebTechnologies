@@ -21,9 +21,6 @@ var bitcoinUi = {
 				target : "userSearchMinRating",
 				text : "Find by Rating"
 			}, {
-				target : "userSearchById",
-				text : "Find by ID"
-			}, {
 				target : "userSearchAll",
 				text : "Get All"
 			} ],
