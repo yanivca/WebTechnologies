@@ -297,7 +297,7 @@ function populateNotifications(response) {
     } else {
         container.append("<div data-role=\"controlgroup\" id=\"innerResults\"></div>");
         for (var i=0; i < response.count; i++) {
-            container.append("<a data-context=\"notificationToRead\" data-role=\"button\" data-id=\"" + response.data[i]._id + "\" data-amount=\"" + response.data[i].bitcoinsAmount +"\" data-type=\"" + response.data[i].type +"\" data-from=\"" + response.data[i].from +"\">" + response.data[i].type + "ing " + response.data[i].bitcoinsAmount + " Bitcoins</a>");
+            container.append("<a data-context=\"notificationToRead\" data-role=\"button\" data-id=\"" + response.data[i]._id + "\" data-amount=\"" + response.data[i].bitcoinsAmount +"\" data-rate=\"" + response.data[i].rate + "\" data-type=\"" + response.data[i].type +"\" data-from=\"" + response.data[i].from +"\">" + response.data[i].type + "ing " + response.data[i].bitcoinsAmount + " Bitcoins</a>");
         }
     }
 
@@ -308,8 +308,10 @@ function populateNotifications(response) {
         var id = this.getAttribute("data-id");
         var amount = this.getAttribute("data-amount");
         var type = this.getAttribute("data-type");
+        var rate = this.getAttribute("data-rate");
+        var user = getUser();
 
-        var params = {id: id, amount: amount, type: type};
+        var params = {id: id, amount: amount, type: type, rate: rate, user: user};
         post_to_url("notificationDetails", params, "POST");
     })
 

@@ -121,13 +121,13 @@ function getUserId() {
 	return response.responseJSON.userId;
 }
 
-function getUserName(userId) {
+function getUser(userId) {
 	response = $.ajax({
 		url : "../users/" + userId,
 		type : "GET",
 		async : false
 	});
-	return response.responseJSON.data[0].username;
+	return response.responseJSON.data[0];
 }
 
 function getUserResult(userId) {
